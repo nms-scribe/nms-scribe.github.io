@@ -1,0 +1,779 @@
+
+/* Inspired by Jekyll Dinky theme, which was released into the public domain using the Creative Commons Zero v1.0 Universal license. 
+The code was taken straight from the output of the theme and edited. */
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel:wght@400;700;800&display=swap');
+@import url('https://fontlibrary.org//face/libertinus-mono');
+
+:root {
+  --body-font: 'Alegreya', serif;
+  --body-font-size: 21px; 
+  --header-font: 'Cinzel', serif;
+  --mono-font: "LibertinusMonoMono", monospace;
+  --sans-font: 'Alegreya Sans', sans-serif;
+  font-size: var(--body-font-size); /* Sets base rem unit */
+
+  --body-color: #CCCCCC;
+  --background-color: #3A4A4C; 
+  --link-color: #2CC6E2;
+  --header-color: #CCCCCC;
+  --header-background: #14282B;
+  --header-name-color: #DDDDDD; /* for headings, links, etc. in the header bar */
+  --code-background: #1E1E1E;
+  --code-color: #D4D4D4;
+  --code-border-color: #D7D8C8;
+  --table-highlight-background: var(--header-background);
+  --table-highlight-color: var(--header-color);
+  --table-border-color: var(--header-background);
+  --buttons-hover-color: #14282B; /* FUTURE: Not sure what this is used for */
+
+  --content-width: 650px;
+}
+
+/* The .highlight classes are used for code highlighting. I don't really need them with this blog. The styles are copied from the borland theme at https://github.com/jwarby/jekyll-pygments-themes. The code there is also distributed as public domain using the "unlicense". */
+
+:root {
+  --highlight-background: var(--code-background);
+  --highlight-text: var(--code-color);
+  --highlight-comment: #559955;
+  --highlight-literal: #555599;
+  --highlight-error: #995555;
+  --highlight-insert: #009900;
+  --highlight-delete: #990000;
+}
+
+.highlight .hll {
+  background-color: var(--highlight-background);
+}
+.highlight .c {
+  color: var(--highlight-comment);
+  font-style: italic;
+} /* Comment ⏹ */
+.highlight .err {
+  color: var(--highlight-error);
+  font-weight: bold;
+  font-style: italic;
+} /* Error */
+.highlight .k {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword */
+.highlight .cm {
+  color: var(--highlight-comment);
+  font-style: italic;
+} /* Comment.Multiline */
+.highlight .cp {
+  color: var(--highlight-comment);
+  font-weight: bold;
+} /* Comment.Preproc */
+.highlight .c1 {
+  color: var(--highlight-comment);
+  font-style: italic;
+} /* Comment.Single */
+.highlight .cs {
+  color: var(--highlight-comment);
+  font-weight: bold;
+} /* Comment.Special */
+.highlight .gd {
+  color: var(--highlight-text);
+  text-decoration: line-through var(--highlight-delete);
+} /* Generic.Deleted */
+.highlight .ge {
+  color: var(--highlight-text);
+  font-style: italic;
+} /* Generic.Emph */
+.highlight .gr {
+  color: var(--highlight-error);
+  font-weight: bold;
+  font-style: italic;
+} /* Generic.Error */
+.highlight .gh {
+  color: var(--highlight-text);
+} /* Generic.Heading */
+.highlight .gi {
+  color: var(--highlight-text);
+  text-decoration: underline var(--highlight-insert);
+} /* Generic.Inserted */
+.highlight .go {
+  color: var(--highlight-text);
+} /* Generic.Output */
+.highlight .gp {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Generic.Prompt */
+.highlight .gs {
+  font-weight: bold;
+} /* Generic.Strong */
+.highlight .gu {
+  color: var(--highlight-text);
+  font-style: italic;
+} /* Generic.Subheading */
+.highlight .gt {
+  color: var(--highlight-text);
+} /* Generic.Traceback */
+.highlight .k {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword */
+.highlight .kc {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Constant */
+.highlight .kd {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Declaration */
+.highlight .kn {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Namespace */
+.highlight .kp {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Pseudo */
+.highlight .kr {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Reserved */
+.highlight .kt {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Keyword.Type */
+.highlight .na {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Attribute */
+.highlight .nt {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Tag */
+.highlight .nb {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Builtin */
+.highlight .bp {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Builtin.Pseudo */
+.highlight .nc {
+  color: var(--highlight-text);
+} /* Name.Class */
+.highlight .no {
+  color: var(--highlight-text);
+} /* Name.Constant */
+.highlight .nd {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Decorator */
+.highlight .ni {
+  color: var(--highlight-text);
+} /* Name.Entity */
+.highlight .ne {
+  color: var(--highlight-text);
+} /* Name.Exception */
+.highlight .nf {
+  color: var(--highlight-text);
+} /* Name.Function */
+.highlight .nl {
+  color: var(--highlight-text);
+} /* Name.Label */
+.highlight .nn {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Name.Namespace */
+.highlight .nv {
+  color: var(--highlight-text);
+} /* Name.Variable */
+.highlight .vc {
+  color: var(--highlight-text);
+} /* Name.Variable.Class */
+.highlight .vg {
+  color: var(--highlight-text);
+} /* Name.Variable.Global */
+.highlight .vi {
+  color: var(--highlight-text);
+} /* Name.Variable.Instance */
+.highlight .o {
+  color:  var(--highlight-text);
+  font-weight: bold;
+} /* Operator */
+.highlight .ow {
+  color:var(--highlight-text)(--highlight-text);
+  font-weight: bold;
+} /* Operator.Word */
+.highlight .w {
+  color: var(--highlight-text);
+} /* Text.Whitespace */
+.highlight .m {
+  color: var(--highlight-literal);
+} /* Literal.Number */
+.highlight .mf {
+  color: var(--highlight-literal);
+} /* Literal.Number.Float */
+.highlight .mh {
+  color: var(--highlight-literal);
+} /* Literal.Number.Hex */
+.highlight .mi {
+  color: var(--highlight-literal);
+} /* Literal.Number.Integer */
+.highlight .il {
+  color: var(--highlight-literal);
+} /* Literal.Number.Integer.Long */
+.highlight .mo {
+  color: var(--highlight-literal);
+} /* Literal.Number.Oct */
+.highlight .s {
+  color: var(--highlight-literal);
+} /* Literal.String */
+.highlight .sb {
+  color: var(--highlight-literal);
+} /* Literal.String.Backtick */
+.highlight .sc {
+  color: var(--highlight-literal);
+} /* Literal.String.Char */
+.highlight .sd {
+  color: var(--highlight-literal);
+} /* Literal.String.Doc */
+.highlight .s2 {
+  color: var(--highlight-literal);
+} /* Literal.String.Double */
+.highlight .se {
+  color: var(--highlight-literal);
+} /* Literal.String.Escape */
+.highlight .sh {
+  color: var(--highlight-literal);
+} /* Literal.String.Heredoc */
+.highlight .si {
+  color: var(--highlight-literal);
+} /* Literal.String.Interpol */
+.highlight .sx {
+  color: var(--highlight-literal);
+} /* Literal.String.Other */
+.highlight .sr {
+  color: var(--highlight-literal);
+} /* Literal.String.Regex */
+.highlight .s1 {
+  color: var(--highlight-literal);
+} /* Literal.String.Single */
+.highlight .ss {
+  color: var(--highlight-literal);
+} /* Literal.String.Symbol */
+/* These weren't found at jekyll-pygments-theme, what are they? */
+.highlight .kv {
+  color: var(--highlight-text);
+  font-weight: bold;
+} /* Assume keyword? */
+.highlight .mb, .highlight .mx {
+  color: var(--highlight-literal);
+} /* Assume literal? */
+
+.highlight table td {
+  padding: 5px;
+}
+
+.highlight table pre {
+  margin: 0;
+}
+
+.highlight {
+  background-color: var(--highlight-background);
+}
+
+/* MeyerWeb Reset */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Base text styles */
+body {
+  padding: 0px 50px 0 0;
+  font-family: var(--body-font);
+  font-size: var(--body-font-size);
+  color: var(--body-color);
+  background-color: var(--background-color);
+  margin: 0;
+  line-height: 1.8em;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--body-color);
+  margin: 36px 0 10px;
+}
+
+p, ul, ol, table, dl {
+  margin: 0 0 22px;
+}
+
+h1, h2, h3 {
+  font-family: var(--header-font);
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+h1, h2, h3 {
+  display: block;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+h4, h5, h6 {
+  font-family: var(--header-font);
+  font-weight: 800;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  background-color: var(--buttons-hover-color);
+}
+
+a:hover img {
+  box-shadow: 0 0 0 1px var(--link-color);
+}
+
+a:hover svg {
+  box-shadow: 0 0 0 1px var(--link-color);
+}
+
+a.search-results-link {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: inherit;
+}
+
+a.search-results-link:hover section {
+  background-color: var(--buttons-hover-color);
+}
+
+
+a small {
+  font-size: 0.6rem;
+}
+
+em, i {
+  font-style: italic;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+ul {
+  list-style-position: inside;
+  list-style: disc;
+  padding-left: 25px;
+}
+
+ol {
+  list-style-position: inside;
+  list-style: decimal;
+  padding-left: 25px;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0 0 0 20px;
+  font-style: italic;
+}
+
+dl, dt, dd, dl p {
+  margin-left: 1rem;
+}
+
+dl dt {
+  font-weight: bold;
+}
+
+dl dd {
+  padding-left: 20px;
+  font-style: italic;
+}
+
+dl p {
+  padding-left: 20px;
+  font-style: italic;
+}
+
+hr {
+  border: 0;
+  background: #ccc;
+  height: 1px;
+  margin: 0 0 24px;
+}
+
+/* Images */
+img {
+  position: relative;
+  margin: 0 auto;
+  max-width: var(--content-width);
+  padding: 5px;
+  margin: 10px 0 32px 0;
+  border: none;
+}
+
+p img {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.emoji {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  text-align: center;
+  border: none;
+}
+
+/* Code blocks */
+code {
+  font-family: var(--mono-font);
+  font-size: 0.8rem;
+  color: var(--code-color);
+  background-color: var(--code-background);
+}
+
+/* Everyone seems to treat pre blocks as the same as code blocks, but really they're different. Pre blocks merely maintain whitespace, they do not necessarily have a monospace font or syntax highlighting format. Pre is for poems, not for code. */
+pre {
+  padding: 4px 12px;
+  overflow: auto;
+  overflow-y: hidden;
+  margin-bottom: 32px;
+}
+
+/* However, because Markdown automatically inserts code inside a pre block, we have to set the border here, or we get weird results. In theory it will always be in the highlight class. */
+pre.highlight {
+  border-radius: 4px;
+  border: 1px solid var(--code-border-color);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--table-border-color);
+  border-radius: 4px;
+}
+
+table {
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+th {
+  font-family: var(--sans-font);
+  font-size: var(--body-font-size);
+  font-weight: bold;
+  padding: 5px 10px;
+}
+
+td {
+  font-family: var(--sans-font);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+  padding: 5px 10px;
+  border: none;
+}
+
+tbody tr:nth-child(odd) {
+  color: var(--table-highlight-color);
+  background-color: var(--table-highlight-background);
+}
+
+figcaption {
+  text-align: center;
+  font-family: var(--sans-font);
+  font-weight: bold;
+}
+
+/* If the figure caption appears below the table, I need to shift the margin down below it */
+table + figcaption {
+  margin-top: -32px; /* collapes the table's margin here.. */
+  margin-bottom: 32px;
+}
+
+/* Header */
+#nameplate {
+  background-color: var(--header-background);
+  color: var(--header-color);
+  border: 1px solid #000;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 34px 25px 22px 50px;
+  margin: 0px 25px 0 0;
+  width: 250px;
+  -webkit-font-smoothing: antialiased;
+}
+
+#nameplate .logo {
+  text-align: center;
+}
+
+#nameplate .logo img {
+  border: none;
+}
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#main-content nav {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  font-family: var(--sans-font);
+}
+
+#main-content nav a,
+#main-content nav form {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+}
+
+button {
+  background-color: var(--background-color);
+  color: var(--body-color);
+  border: none;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+button:hover {
+  background-color: var(--buttons-hover-color);
+}
+
+input {
+  vertical-align: middle;
+  height: 1rem;
+}
+
+label {
+  font-family: var(--sans-font);
+  font-weight: bold;
+}
+
+.svg-button svg {
+  stroke: var(--link-color)
+}
+
+#main-content header p {
+  padding-bottom: 0px;
+  margin-bottom: 0px;  
+  line-height: 1rem;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+#main-content header {
+  margin-bottom: 22px;
+}
+
+
+
+#main-content footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#main-content footer p {
+  display: inline-block;
+}
+
+
+/* Section - for main page content */
+#page-content {
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The following is intended to make sure everything fits the content-width when possible. Setting page-content width directly won't work because the post-naviagtion needs to be wider, and in any case it seems to get overridden in a few cases. */
+#page-content > * {
+  width: var(--content-width);
+}
+
+#page-content form {
+  text-align: center;
+  margin: 20px 0px;
+}
+
+#page-content nav.post-navigation:first-of-type {
+  border-top: 1px solid var(--body-color);
+}
+
+
+#page-content nav.post-navigation {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  justify-content: center;
+  max-width: calc(var(--content-width) + 300px);
+  border-bottom: 1px solid var(--body-color);
+}
+
+#page-content nav.post-navigation span:nth-child(1) {
+  text-align: right;
+}
+
+#page-content nav.post-navigation span:nth-child(2) {
+  text-align: center;
+}
+
+#page-content nav.post-navigation span:nth-child(3) {
+  text-align: left;
+}
+
+#nameplate {
+  font-family: var(--sans-font);
+}
+
+#nameplate h1 {
+  font-family: var(--sans-font);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.3em;
+  border-bottom: none;
+  margin-top: 0;
+}
+
+a.name {
+  white-space: nowrap;
+}
+
+#nameplate ul {
+  list-style: none;
+  padding: 0;
+}
+
+sup {
+  line-height: 0; /* Without this, it shifts the line height of the entire line. I'm okay with occasional overlap. */
+  vertical-align: super;
+}
+
+sup a {
+  padding: 0;
+}
+
+/* Add some content before and after to make it easier to click the small, short links */
+sup a::after {
+  content: "❭";
+  padding-left: 2px;
+}
+
+sup a::before {
+  content: "❬";
+  padding-right: 2px;
+}
+
+div.footnotes {
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+  border-top: 1px solid var(--body-color);
+  padding-top: 1rem;
+}
+
+@media print, screen and (max-width: 1200px) {
+  #header-input-search {
+    display: none; /* The mag glass button still brings you to search page, so that's okay */
+  }
+}
+
+@media print, screen and (max-width: 960px) {
+  body {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+  #main-content {
+    display: block;
+  }
+  #main-content footer {
+    width: 100%;
+    justify-content: space-around;
+  }
+  #nameplate {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  #nameplate, section, footer {
+    float: none;
+    position: static;
+    width: auto;
+  }
+  #nameplate a small {
+    display: inline;
+  }
+}
+
+@media print, screen and (max-width: 720px) {
+  body {
+    word-wrap: break-word;
+  }
+  #nameplate ul, #nameplate p.view {
+    position: static;
+  }
+
+  #main-content {
+    margin: 10px;
+  }
+
+  #main-content nav {
+    display: block;
+  }
+
+  #main-content footer {
+    display: block;
+  }
+
+  :root {
+    --content-width: 100%;
+  }
+
+}
+
+@media print, screen and (max-width: 480px) {
+  #nameplate ul li.download {
+    display: none;
+  }
+}
+
+@media print {
+  body {
+    padding: 0.4in;
+    font-size: 0.8rem;
+  }
+}

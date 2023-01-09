@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "colors": "^1.4.0",
+    "jsdom": "^20.0.3",
+    "lz-string": "github:pieroxy/lz-string",
+    "slugify": "^1.6.5",
+    "yaml-front-matter": "^4.1.1"
+  }
+}

@@ -1,0 +1,144 @@
+---
+layout: default
+---
+
+<noscript>If you wish to use this page to search {{ site.title }}, you will need JavaScript. I promise that the scripting on this page is only used for searching an already loaded index of this site. It does not access any other files or servers.</noscript>
+<section id="search-page">
+    <form action="{{site.baseurl}}/search.html" method="get" id="form-search">
+        <label for="input-search">Search For:</label>
+        <input type="text" name="q" id="input-search"/>
+        <button class="svg-button" id="submit-search">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490" width="1.8em" height="1.8em">
+                <path fill="none" stroke-width="36" stroke-linecap="round" d="m280,278a153,153 0 1,0-2,2l170,170m-91-117 110,110-26,26-110-110"/>
+            </svg>      
+        </button>
+    </form>
+    <h2>Results</h2>
+    <div id="search-results">
+        <p>Loading search engine...</p>
+    </div>
+</section>
+<script defer src="{{site.baseurl}}/assets/js/lz-string.js"></script>
+<script defer src="{{site.baseurl}}/assets/js/site_search_index.js"></script>
+<script>
+(function(window,document) {
+    const SEARCH_LIMIT = 999;
+
+    let form = document.querySelector('#form-search');
+    let input = document.querySelector('#input-search');
+    let resultList = document.querySelector('#search-results');
+
+    if (!form || !input || !resultList) return;
+
+    let createResultsMessageHTML = function(message) {
+        return `<p>${message}</p>`
+    }
+
+    let createResultsEntryHTML = function(id,url,title,snippet) {
+        return `<a class="search-results-link" href="${url}"><section id="search-result-${id}"><h3>${title}</h3>${ (snippet) ? `<p>${snippet}</p>` : ``}</section></a>`
+    }
+
+    let createResultsHTML = function(titleResults,contentResults,limited) {
+        if ((titleResults.length == 0) && (contentResults == 0)) {
+            return createResultsMessageHTML("Sorry, no matches were found.");
+        }
+        let html = createResultsMessageHTML(limited ? `Found a maximum of ${SEARCH_LIMIT + 1} matches before the search was ended. Refine your search to return fewer results.` : `Found ${titleResults.length + contentResults.length} matches.`);
+        html += titleResults.map(function(result,id) {
+            let article = result[0];
+            let marked_title = result[1];
+            return createResultsEntryHTML(id,article.url,marked_title);
+        }).join('');
+        html += contentResults.map(function(result,id) {
+            let article = result[0];
+            let snippet = result[1];
+            return createResultsEntryHTML(id,article.url,article.title,snippet);
+        }).join('');
+
+        return html;
+    }
+
+    let search = function(query) {
+        let titleResults = [];
+        let contentResults = [];
+        let count = 0;
+        if (!!query) { // don't search for blank.
+            // escape the special characters (Although a regex search would be nice, it may cause problems with users who search for '?' or parenthesis. 
+            let match = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+            let reg = new RegExp(match,'gi');
+            for (article of SITE_SEARCH_INDEX) {
+                reg.lastIndex = 0; // reset, otherwise the matches will increment this value and we'll start searching from a later point and miss some matches.
+                for (match of article.title.matchAll(reg)) {
+                    let snippet = article.title.slice(0,match.index);
+                    snippet += "<mark>" + match[0] + "</mark>";
+                    snippet += article.title.slice(match.index + match[0].length);
+                    titleResults.push([article,snippet]);
+                    count += 1;
+                    if (count > SEARCH_LIMIT) {
+                        break;
+                    }
+                }
+                reg.lastIndex = 0;
+                for (match of article.content.matchAll(reg)) {
+                    let snippet = article.content.slice(Math.max(0,match.index - 100),match.index);
+                    snippet += "<mark>" + match[0] + "</mark>";
+                    snippet += article.content.slice(match.index + match[0].length,match.index + match[0].length + 100);
+                    contentResults.push([article,snippet]);
+                    count += 1;
+                    if (count > SEARCH_LIMIT) {
+                        break;
+                    }
+                }
+
+                if (count > SEARCH_LIMIT) {
+                    break;
+                }
+            }
+    
+        }
+
+        resultList.innerHTML = createResultsHTML(titleResults,contentResults,count > SEARCH_LIMIT);
+    }
+
+    let submitHandler = function(event) {
+        event.preventDefault();
+        resultList.innerHTML = createResultsMessageHTML("Searching...")
+        let value = input.value;
+        setTimeout(function() {
+            search(value)
+        }, 1);
+    };
+
+    let loadHandler = function() {
+        if (!SITE_SEARCH_INDEX) {
+            console.error("SITE_SEARCH_INDEX was not defined.");
+            return;
+        } else {
+            resultList.innerHTML = createResultsMessageHTML("Please enter text in the input above and press the button.");            
+        }
+        // prefer any existing contents of input.value first. That way you 
+        // can refresh the page, and if the browser kept the form data, it will
+        // use that instead.
+        if (input.value != "") {
+            search(input.value)
+        } else {
+            let location_query = window.location.search;
+            if (location_query != "") {
+                let params = new URLSearchParams(location_query);
+                if (params.has('q')) {
+                    let query = params.get('q');
+                    input.value = query;
+                    setTimeout(function() {search(query)},0);
+                }
+            } 
+        }
+   
+    }
+    
+    form.addEventListener('submit', submitHandler);
+
+    document.addEventListener('DOMContentLoaded', loadHandler)
+
+
+})(window,document);
+
+</script>

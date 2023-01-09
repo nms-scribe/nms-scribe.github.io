@@ -1,0 +1,11 @@
+---
+layout: default
+---
+
+<h1>Series: {{ page.tag }}</h1>
+{% assign posts = site.posts | sort: 'date' %}
+{% for post in posts %}
+    {% if post.series == page.tag %}
+       {% include post_preview.html %}
+    {% endif %}
+{% endfor %}
