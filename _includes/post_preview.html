@@ -4,6 +4,9 @@
 <p>{{ post.date | date: "%F" }} {% for category in post.categories %}<a href="{{site.url}}/categories/{{category}}">{{ category }}</a>{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
 </header>
 
-{{ post.excerpt }}<a href="{{ post.url }}">Read More...</a>
+<div>
 
+{{post.excerpt}}{% if post.excerpt != post.content %}<a class="read-more" href="{{ site.baseurl }}{{ post.url }}">Read more...</a>
+{% endif %}
 
+</div>

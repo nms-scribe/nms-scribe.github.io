@@ -26,6 +26,8 @@ This blog is dedicated to updating the world about the creative projects I’m w
 
 As is tradition, this blog will probably begin with a burst of posts over the next few months, followed by a gradual decline until it goes ten or twenty years without anything new.
 
+If you are looking for something specific, see below for a list of categories, or a list of series. Or use the search input above to do a text search of all posts and pages.
+
 ## Recent Posts
 
 {% for post in site.posts limit:3 %}

@@ -516,6 +516,10 @@ table + figcaption {
   margin-bottom: 32px;
 }
 
+.read-more {
+  font-family: var(--sans-font);
+}
+
 /* Header */
 #nameplate {
   background-color: var(--header-background);
