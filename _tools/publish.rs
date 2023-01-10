@@ -1,14 +1,4 @@
 #!/usr/bin/env -S rust-script -o
-/*
-Copyright © 2023 Neil M. Sheldon
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
 //! This is a regular crate doc comment, but it also contains a partial
 //! Cargo manifest.  Note the use of a *fenced* code block, and the
 //! `cargo` "language".
@@ -21,6 +11,16 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 //! slugify = "0.1.0"
 //! enum_dispatch = "0.3.9"
 //! ```
+/*
+Copyright © 2023 Neil M. Sheldon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 
 // Ordinarily, I'd just address the warnings from cargo build or cargo test before cargo run. But as this script is automatically cargo run, I can't really do that. So this means you can't run it, so there. Nanananaa!
 #![deny(warnings)] 
@@ -243,87 +243,22 @@ fn confirm_no_resize(filename: &str) -> Result<(),Box<dyn Error>> {
     }
 }
 
-fn parse_image_arguments(image_args_pattern: &Regex, arguments_text: &str) -> Result<(Option<String>,Option<ImageSize>,Option<ImageFormat>,bool,Vec<String>),Box<dyn Error>> {
-    if let Some(arguments) = image_args_pattern.captures(arguments_text) {
-        if let Some(filename) = arguments.get(2).map(|a| a.as_str().to_owned()) {
-            let mut size = None;
-            let mut format = None;
-            let mut watermark = true;
-            let mut unknowns = vec![];
-            
-            if let Some(attributes) = arguments.get(1) {
-                let attributes = attributes.as_str().split(",");
-                for attribute in attributes {
-                    let attribute = attribute.trim();
-                    let attribute: Vec<&str> = attribute.splitn(2,"=").collect();
-                    if attribute.len() > 1 {
-                        let (name,value) = (attribute[0],attribute[1]);
-                        match name {
-                            "size" => size = Some(value.parse::<ImageSize>().map_err(|e| format!("error parsing size attribute for {}: {}",filename,e))?),
-                            "format" => format = Some(value.parse::<ImageFormat>().map_err(|e| format!("error parsing format attribute for {}: {}",filename,e))?),
-                            "watermark" => watermark = value.parse::<bool>().map_err(|e| format!("error parsing watermark attribute for {}: {}",filename,e))?,
-                            _ => unknowns.push(format!("{}={}",name,value))
-                        }
-                    } else if attribute.len() > 0 {
-                        if attribute[0] != "" {
-                            unknowns.push(format!("{}",attribute[0]))
-                        }
-                    }
-                }
-            };
-            return Ok((Some(filename),size,format,watermark,unknowns))
-
-        }
-    }
-    Ok((None,None,None,false,vec![]))
-}
-
-
-fn replace_image_tags(captures: &Captures, image_args_pattern: &Regex, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
-    if let Some(capture) = captures.get(1) {
-        let (filename,size,format,watermark,unknowns) = parse_image_arguments(image_args_pattern, capture.as_str())?;
-
-        for unknown in unknowns {
-            Err(format!("Found unknown attributes in a draft.image tag: {}",unknown))?
-        }
-
-        if let Some(filename) = filename {
-
-            let source = environment.get_original_image_filename(&filename)?;
-            let new_file_path = format!("{}/{}",date_slug,filename);
-            let target = environment.assets_folder.join(&new_file_path);
-            let result = format!("{}/assets/{}","{{site.baseurl}}",new_file_path);
-
-
-            let size_format = match (size, format) {
-                (Some(_),None) => Err("A draft image specified a size attribute without a format.")?,
-                (None,Some(_)) => Err("A draft image specified a format attribute without a size.")?,
-                (Some(size),Some(format)) => Some((size,format)),
-                (None,None) => {
-                    confirm_no_resize(&filename)?;
-                    None
-                }
-            };
-
-            if !watermark {
-                confirm_no_watermark(&filename)?;
-            }
-
-            tasks.add_assets_directory_task_if_not_present(&environment.assets_folder,date_slug)?;
-            tasks.add_image_task(environment,source,target,watermark,size_format)?;
-
-
-            Ok(result)
-
-        } else {
-            Err("A draft.image tag was found without an image name.")?
-        }
-
+fn confirm_no_size_for_thumbnail(filename: &str) -> Result<(),Box<dyn Error>> {
+    if !io::read_yes_no(&format!("No size was given for '{}', but a full link was requested. A thumbnail can't be generated without knowing the full size. Are you sure you don't want to specify the size?",filename))? {
+        Err("Please edit the post and try again.")?
     } else {
-        Err("An draft.image tag was found without any attributes.")?
+        Ok(())
     }
-
 }
+
+fn confirm_large_image(filename: &str, size: &ImageSize, format: &ImageFormat) -> Result<(),Box<dyn Error>> {
+    if !io::read_yes_no(&format!("An image size of {} {} is rather large to include without a thumbnail. Are you sure you don't want to add a 'full-size' attribute to the tag for '{}'?",size,format,filename))? {
+        Err("Please edit the post and try again.")?
+    } else {
+        Ok(())
+    }
+}
+
 
 fn set_property_if_not_set(post: &Rc<RefCell<Post>>, property: &str, default: &str, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
     let yaml_property = serde_yaml::to_value(property)?;
@@ -426,32 +361,80 @@ fn confirm_excerpt(post: &Rc<RefCell<Post>>) -> Result<(),Box<dyn Error>> {
 }
 
 
-fn fix_images(post: &Rc<RefCell<Post>>, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<(),Box<dyn Error>> {
-    let draft_image_pattern = Regex::new(r"\{\{ *draft *\. *image([^}]*)\}\}")?;
-    // 1st and only capture is the arguments
-    let image_args_pattern = Regex::new(r"^ *(?:\[([^\]]*)?\] *)?: *(.*?) *$")?;
-    // first capture are the arguments, second is the filename.
 
-    let mut error = None;
-    let borrowed = post.borrow();
-    let fixed = draft_image_pattern.replace_all(&borrowed.body,|captures: &Captures| {
-        match replace_image_tags(captures, &image_args_pattern, date_slug, environment, tasks) {
-            Ok(fixed) => fixed,
-            Err(err) => {
-                error = Some(format!("{}",err));
-                // return the first capture, which I hope is not None...
-                format!("{}",&captures[0])
+
+
+fn replace_image_tag(image_args: &str, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
+    let ImageArguments { alt, filename, size_format, watermark, full_link } = ImageArguments::parse(environment,image_args)?;
+
+    let source = environment.get_original_image_filename(&filename)?;
+    let new_file_path = format!("{}/{}",date_slug,filename);
+
+    // confirm some validations
+    match &size_format {
+        Some((size,format)) => {
+            if (size.width(&format) > CONTENT_WIDTH) && !full_link {
+                confirm_large_image(&filename,&size,&format)? 
+            } 
+        },
+        None => confirm_no_resize(&filename)?
+    }
+
+    if !watermark {
+        confirm_no_watermark(&filename)?;
+    }
+
+
+    tasks.add_assets_directory_task_if_not_present(&environment.assets_folder,date_slug)?;
+    let target = environment.assets_folder.join(&new_file_path);
+
+    tasks.add_image_task(environment,source,target.clone(),watermark,&size_format)?;
+
+    let result = if full_link {
+        let thumbnail_path = if let Some((size,format)) = size_format {
+            if size.width(&format) > CONTENT_WIDTH  {
+                // NOTE: This will cause ImageMagick to always convert the thumbnail to png
+                let thumbnail_path = format!("{}/{}.thumbnail.png",date_slug,filename);
+                let thumbnail_target = environment.assets_folder.join(&thumbnail_path);
+
+                tasks.add_image_task(environment,target,thumbnail_target,false,&Some(size.thumbnail_size(&format)))?;
+                
+                thumbnail_path
+            } else {
+                new_file_path.clone()
             }
-        }
-    });
+        } else {
+            confirm_no_size_for_thumbnail(&filename)?;
+            new_file_path.clone()
+        };
 
-    if let Some(error) = error {
-        Err(format!("Error processing images, please edit post and try again: {}",error))?
+        format!("[![{}](<{}/assets/{}>)](<{}/assets/{}>)",alt,"{{site.baseurl}}",thumbnail_path,"{{site.baseurl}}",new_file_path);
+        todo!("The full-link attribute hasn't been tested yet.")
     } else {
-        if fixed != post.borrow().body {
-            tasks.add(UpdateBodyTask::new(post.clone(),fixed.into_owned()).into())?
+        format!("![{}](<{}/assets/{}>)",alt,"{{site.baseurl}}",new_file_path)
+    };
+
+
+    Ok(result)
+
+
+
+}
+
+
+fn fix_images(post: &Rc<RefCell<Post>>, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<(),Box<dyn Error>> {
+
+    let borrowed = post.borrow();
+    match environment.replace_all_draft_image_tags(&borrowed.body,|args| {
+        replace_image_tag(args, date_slug, environment, tasks)
+    }) {
+        Err(err) => Err(format!("Error processing images, please edit post and try again: {}",err).into()),
+        Ok(fixed) => {
+            if fixed != post.borrow().body {
+                tasks.add(UpdateBodyTask::new(post.clone(),fixed).into())?
+            }
+            Ok(())
         }
-        Ok(())
     }
 
 }
@@ -459,7 +442,7 @@ fn fix_images(post: &Rc<RefCell<Post>>, date_slug: &str, environment: &Environme
 
 
 
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 enum ImageFormat {
     Landscape,
     Portrait
@@ -508,8 +491,9 @@ impl Display for ImageFormat {
 
 
 const BASE_DPCM: usize = 59;
+const CONTENT_WIDTH: usize = 650; // FUTURE: This is based off of the content-width given in the CSS.
 
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 enum ImageSize { 
 // The pixels assume a dpcm of 59, which is close to a dpi of 150.
 // The images will be reduced to fit into the specified size, but retain their original aspect ratio.
@@ -519,54 +503,61 @@ enum ImageSize {
     A8, // short_mm:   52, long_mm:   74, short_in: 2.0, long_in: 2.9, short_px: 307, long_px:  437
     A9, // short_mm:   37, long_mm:   52, short_in: 1.5, long_in: 2.0, short_px: 218, long_px:  307
     A10,// short_mm:   26, long_mm:   37, short_in: 1.0, long_in: 1.5, short_px: 153, long_px:  218
-    Custom(usize,usize)
+    Custom(usize,usize) // NOTE: This is not width by height, these are two dimensions, the Format specifies which is width and which is height.
 }
 
 impl ImageSize {
 
-    fn _short_dimension(&self) -> usize {
+    fn short_dimension(&self) -> usize {
         match self {
             // The measurements are calculated from mm below because the specifications are in mm.
             // I'm not worried about weird differences due to platform issues.
-            Self::A5 => Self::_mm_to_px(148),
-            Self::A6 => Self::_mm_to_px(105),
-            Self::A7 => Self::_mm_to_px(74),
-            Self::A8 => Self::_mm_to_px(52),
-            Self::A9 => Self::_mm_to_px(37),
-            Self::A10 => Self::_mm_to_px(26),
+            Self::A5 => Self::mm_to_px(148),
+            Self::A6 => Self::mm_to_px(105),
+            Self::A7 => Self::mm_to_px(74),
+            Self::A8 => Self::mm_to_px(52),
+            Self::A9 => Self::mm_to_px(37),
+            Self::A10 => Self::mm_to_px(26),
             Self::Custom(x,y) => *x.min(y) 
         }
 
     }
 
-    fn _long_dimension(&self) -> usize {
+    fn long_dimension(&self) -> usize {
         match self {
-            Self::A5 => Self::_mm_to_px(210),
-            Self::A6 => Self::_mm_to_px(148),
-            Self::A7 => Self::_mm_to_px(105),
-            Self::A8 => Self::_mm_to_px(74),
-            Self::A9 => Self::_mm_to_px(52),
-            Self::A10 => Self::_mm_to_px(37),
+            Self::A5 => Self::mm_to_px(210),
+            Self::A6 => Self::mm_to_px(148),
+            Self::A7 => Self::mm_to_px(105),
+            Self::A8 => Self::mm_to_px(74),
+            Self::A9 => Self::mm_to_px(52),
+            Self::A10 => Self::mm_to_px(37),
             Self::Custom(x,y) => *x.max(y) 
         }
 
     }
 
-    fn _mm_to_px(mm: usize) -> usize {
+    fn mm_to_px(mm: usize) -> usize {
         ((mm as f32)  * 0.1 * (BASE_DPCM as f32)).round() as usize
     }
 
     fn width(&self, format: &ImageFormat) -> usize {
         match format {
-            ImageFormat::Landscape => self._long_dimension(),
-            ImageFormat::Portrait => self._short_dimension()
+            ImageFormat::Landscape => self.long_dimension(),
+            ImageFormat::Portrait => self.short_dimension()
         }
     }
 
     fn height(&self, format: &ImageFormat) -> usize {
         match format {
-            ImageFormat::Landscape => self._short_dimension(),
-            ImageFormat::Portrait => self._long_dimension()
+            ImageFormat::Landscape => self.short_dimension(),
+            ImageFormat::Portrait => self.long_dimension()
+        }
+    }
+
+    fn thumbnail_size(&self, format: &ImageFormat) -> (ImageSize,ImageFormat) {
+        match format {
+            ImageFormat::Landscape => (ImageSize::A7,ImageFormat::Landscape),
+            ImageFormat::Portrait => (ImageSize::A6,ImageFormat::Portrait),
         }
     }
 
@@ -682,6 +673,77 @@ impl Display for ImageSize {
 
 }
 
+struct ImageArguments {
+    filename: String,
+    alt: String,
+    size_format: Option<(ImageSize,ImageFormat)>,
+    watermark: bool,
+    full_link: bool
+}
+
+impl ImageArguments {
+
+
+    fn parse(environment: &Environment, arguments_text: &str) -> Result<Self,Box<dyn Error>> {
+        if let Some((attributes,filename,alt)) = environment.capture_draft_image_args(arguments_text) {
+            if let Some(filename) = filename {
+                let mut size = None;
+                let mut format = None;
+                let mut watermark = true;
+                let mut full_link = false;
+                
+                if let Some(attributes) = attributes {
+                    let attributes = attributes.as_str().split(",");
+                    for attribute in attributes {
+                        let attribute = attribute.trim();
+                        let attribute: Vec<&str> = attribute.splitn(2,"=").collect();
+                        if attribute.len() > 1 {
+                            let (name,value) = (attribute[0],attribute[1]);
+                            match name {
+                                "size" => size = Some(value.parse::<ImageSize>().map_err(|e| format!("error parsing size attribute for {}: {}",filename,e))?),
+                                "format" => format = Some(value.parse::<ImageFormat>().map_err(|e| format!("error parsing format attribute for {}: {}",filename,e))?),
+                                "watermark" => watermark = value.parse::<bool>().map_err(|e| format!("error parsing watermark attribute for {}: {}",filename,e))?,
+                                "full-link" => full_link = value.parse::<bool>().map_err(|e| format!("error parsing full-link attribute for {}: {}",filename,e))?,
+                                _ => Err(format!("Found unknown attribute in a draft.image tag: {}={}",name,value))?
+                            }
+                        } else if attribute.len() > 0 {
+                            if attribute[0] != "" {
+                                Err(format!("Found unknown attribute in a draft.image tag: {}",attribute[0]))?
+                            }
+                        }
+                    }
+                };
+
+                let size_format = match (size, format) {
+                    (Some(_),None) => Err("A draft image specified a size attribute without a format.")?,
+                    (None,Some(_)) => Err("A draft image specified a format attribute without a size.")?,
+                    (Some(size),Some(format)) => Some((size,format)),
+                    (None,None) => None
+                };
+            
+            
+
+                if let Some(alt) = alt {
+                    Ok(Self {
+                        filename,
+                        alt,
+                        size_format,
+                        watermark,
+                        full_link
+                    })
+                } else {
+                    Err(format!("Image '{}' did not have an alt attribute",filename).into())
+                }
+
+            } else {
+                Err("A draft.image tag was found without an image name.")?
+            }
+        } else {
+            Err("A draft image tag was found with no or invalid arguments.".into())
+        }
+    }
+}
+
 struct FileChoice {
     name: String,
     entry: PathBuf
@@ -703,12 +765,15 @@ struct Environment {
     categories_folder: PathBuf,
     series_folder: PathBuf,
     categories_script: PathBuf,
-    search_index_script: PathBuf
+    search_index_script: PathBuf,
+    draft_image_pattern: Regex,
+    draft_image_args_pattern: Regex
+    
 }
 
 impl Environment {
 
-    fn new() -> Result<Self,io::Error> {
+    fn new() -> Result<Self,Box<dyn Error>> {
         let cd = std::env::current_dir()?;
         Ok(Self {
             draft_folder: cd.join("_drafts"),
@@ -717,10 +782,51 @@ impl Environment {
             categories_folder: cd.join("categories"),
             series_folder: cd.join("series"),
             categories_script: cd.join("_tools").join("create_categories.js"),
-            search_index_script: cd.join("_tools").join("create_search_index.js")
+            search_index_script: cd.join("_tools").join("create_search_index.js"),
+            draft_image_pattern: Regex::new(r"\{\{ *draft *\. *image([^}]*)\}\}")?,
+            // 1st and only capture is the arguments
+
+            draft_image_args_pattern: Regex::new(r"^ *(?:\[([^\]]*)?\] *)?: *(.*?) *(?:\| ?(.*?) *)?$")?
         })
         
     }
+
+    fn capture_draft_image_args(&self, source_str: &str) -> Option<(Option<String>,Option<String>,Option<String>)> {
+        if let Some(captures) = self.draft_image_args_pattern.captures(source_str) {
+            let convert = |a: regex::Match| a.as_str().into();
+            Some((captures.get(1).map(convert),captures.get(2).map(convert),captures.get(3).map(convert)))
+
+
+        } else {
+            None
+        }
+    }
+
+
+    fn replace_all_draft_image_tags<Callback: FnMut(&str) -> Result<String,Box<dyn Error>>>(&self, source_str: &str, mut callback: Callback) -> Result<String,Box<dyn Error>> {
+        let mut error = Default::default();
+        let fixed = self.draft_image_pattern.replace_all(source_str,|captures: &Captures| {
+            if let Some(image_args) = captures.get(1) {
+                match callback(image_args.as_str()) {
+                    Ok(fixed) => fixed,
+                    Err(err) => {
+                        error = Some(err);
+                        format!("{}",&captures[0])
+                    }
+                }
+            } else {
+                error = Some("An draft.image tag was found without any attributes.".into());
+                format!("{}",&captures[0])
+            }
+        });
+        if let Some(error) = error {
+            Err(error)
+        } else {
+            Ok(fixed.into_owned())
+        }
+
+    }
+
 
     fn list_draft_file_choices(&self) -> Result<Vec<FileChoice>,io::Error> {
         io::list_files(&self.draft_folder, |file| {
@@ -888,7 +994,7 @@ impl ImageTask {
         environment.draft_folder.join("watermark.png")
     }
 
-    fn new(environment: &Environment, source_file: PathBuf, target_file: PathBuf, add_watermark: bool, resize: Option<(ImageSize,ImageFormat)>) -> Self {
+    fn new(environment: &Environment, source_file: PathBuf, target_file: PathBuf, add_watermark: bool, resize: &Option<(ImageSize,ImageFormat)>) -> Self {
         let command = if let Some((size,format)) = &resize {
             if add_watermark {
                 ("magick".into(),vec![
@@ -951,7 +1057,7 @@ impl ImageTask {
             source_file,
             target_file,
             add_watermark,
-            resize,
+            resize: resize.clone(),
             command: CommandTask {
                 command
             }
@@ -1313,7 +1419,7 @@ impl TaskList {
         Ok(())
     }
 
-    fn add_image_task(&mut self, environment: &Environment, source_file: PathBuf, target_file: PathBuf, add_watermark: bool, resize: Option<(ImageSize,ImageFormat)>) -> Result<(),Box<dyn Error>> {
+    fn add_image_task(&mut self, environment: &Environment, source_file: PathBuf, target_file: PathBuf, add_watermark: bool, resize: &Option<(ImageSize,ImageFormat)>) -> Result<(),Box<dyn Error>> {
 
         let new_task = ImageTask::new(environment, source_file, target_file, add_watermark, resize);
 

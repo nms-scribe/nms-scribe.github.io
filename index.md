@@ -5,7 +5,6 @@ layout: default
 {% comment %}
 <!---
 TODO: Next:
-[ ] Announce the new blog on the old blog and on social media
 [ ] Comments - One problem with 'issues' is that I have to create the issue, and if there are never any comments then there's no need for an issue. Not to mention, it requires logging in to Github, doesn't it? I need some way of doing anyonymous comments. How does the blogger stuff do that?
 
 FUTURE: I'm seriously contemplating rewriting this whole thing in a language I know just to get rid of the ruby configuration files and other weirdness such as automatically creating style.css even when I want something else.
