@@ -53,3 +53,4 @@ A 1st level adventure for Fifth Edition D&D, currently being written.
 
 The small hamlet of Arenthorp has fallen under a curse. Elemental creatures are causing havoc, and a mysterious hedge maze has grown around an old manse. Can you find the source of the curse and break it?
 
+{% include comments.html %}

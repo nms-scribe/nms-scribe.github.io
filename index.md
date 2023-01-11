@@ -32,6 +32,16 @@ As is tradition, this blog will probably begin with a burst of posts over the ne
 
 If you are looking for something specific, see below for a list of categories, or a list of series. Or use the search input above to do a text search of all posts and pages.
 
+## On Commenting
+
+After several days of research, I decided that there are no good commenting systems for static websites. The best options I've found all require you to log in to some other service. I believe in the power of the shy, polite, anonymous voice, and I want my door open to them. And the only way I can do that without paying money[^1], or building my own server, is using Disqus. As I know they are a notorious site tracking system, I've set it up so it is not turned on until *you* turn it on. Just press the button on the bottom of each post to load the links, iframes, scripts, etc. and turn it on.
+
+If you are uncomfortable with Disqus, and want to make your voice heard, you have a number of options, all of which require you to have an account somewhere. A github account will get you into the discussions forum linked over on the left of every page. Other accounts will give you access to the social media links at the top of every page. You're still anonymous to me and the rest of its audience, you're just not anonymous to those companies.
+
+All comments are expected to be respectful, tolerant, rated PG, and not promotional. All comments require approval, which may take time.
+
+[^1]: My site doesn't get enough traffic to make it worth paying money for it.
+
 ## Recent Posts
 
 {% for post in site.posts limit:3 %}

@@ -24,3 +24,5 @@ A small-time ghost hunter searches for a dangerous relic and the murderer who to
 A **complete** 113,000 word young adult fantasy novel.
 
 Magical lands exist, people travel through them all the time, but those travelers aren't heroes.
+
+{% include comments.html %}

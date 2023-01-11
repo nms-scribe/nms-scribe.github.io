@@ -1,0 +1,40 @@
+<dir id="page-comments">
+    <div id="disqus_thread">
+        <button id="disqus-button" class="text-button">Enable Disqus for Comments</button><span id="disqus-tooltip">Disqus is not even loaded right now. You will need it to view and add comments. <a href="{{ site.baseurl }}/#on-commenting">More Information...</a></span>
+    </div>
+</dir>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    var disqus_config = function () {
+      this.page.url = "{{page.url}}";  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = "{{page.url}}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function(window,document) {
+        button = document.querySelector('#disqus-button');
+        placeholder = document.querySelector('#disqus_thread');
+
+        let clickHandler = function(event) {
+            event.preventDefault();
+            // clear out the button so disqus can take it over            
+            placeholder.replaceChildren();
+            // add the script
+            // ------------------------- DISQUS CODE DO NOT EDIT
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://nmsheldon-blog.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+            // ^^^^^^^^^^^^^^^^^^^^^^^^^ DISQUS CODE DO NOT EDIT
+        };
+    
+        button.addEventListener('click', clickHandler);
+    
+    
+    })(window,document);
+    
+    </script>
+    <noscript>Commenting requires JavaScript.</a></noscript>
