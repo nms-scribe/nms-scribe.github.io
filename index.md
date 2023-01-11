@@ -6,8 +6,13 @@ layout: default
 <!---
 TODO: Next:
 [ ] Comments - One problem with 'issues' is that I have to create the issue, and if there are never any comments then there's no need for an issue. Not to mention, it requires logging in to Github, doesn't it? I need some way of doing anyonymous comments. How does the blogger stuff do that?
+    * Okay, here's the plan:
+      * Set up a "comments" panel at the bottom of each post, it contains:
+        * a button to load disquss with a warning that this loads disquss, which can track you, but it's the only way to comment anonymously (with moderation).
+        * a button to click if you don't want to load disquss, which will give you a bunch of other ideas for contacting me, including the social media and the discussion page. Unfortunately, I don't have any other way to handle anonymous comments, but with disquss.
+[ ] Custom 404 page?
 
-FUTURE: I'm seriously contemplating rewriting this whole thing in a language I know just to get rid of the ruby configuration files and other weirdness such as automatically creating style.css even when I want something else.
+FUTURE: I'm seriously contemplating rewriting this whole thing in a language I know just to get rid of the ruby configuration files and other weirdness such as automatically creating style.css even when I want something else. A rust-based site builder would be nice, but I need my own templating language.
  -->
 {%endcomment%}
 
