@@ -6,6 +6,6 @@
 
 <div>
 
-{{post.excerpt}}{% if post.excerpt != post.content %}<a class="read-more" href="{{ site.baseurl }}{{ post.url }}">Read more...</a>{% endif %}
+{{ post.content | split: site.excerpt_separator | first }} <a class="read-more" href="{{ site.baseurl }}{{ post.url }}">Read more...</a></p>
 
 </div>

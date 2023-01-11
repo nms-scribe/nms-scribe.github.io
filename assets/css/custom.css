@@ -518,6 +518,7 @@ table + figcaption {
 
 .read-more {
   font-family: var(--sans-font);
+  font-style: italic;
 }
 
 /* Header */
