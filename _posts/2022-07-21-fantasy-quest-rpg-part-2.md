@@ -9,7 +9,7 @@ categories:
 - Role Playing Games
 series: Fantasy Quest RPG
 ---
-*This is part of a series of articles on something I'm calling Fantasy Quest RPG, a thought experiment on a new role-playing game with traditional roots but lots of changes. If you want to start at the beginning go [here](<{{ site.baseurl }}/posts/2022-05-23-fantasy-quest-rpg.html>).* <!--more-->
+*This is part of a series of articles on something I'm calling Fantasy Quest RPG, a thought experiment on a new role-playing game with traditional roots but lots of changes. If you want to start at the beginning go [here](<{{ 'posts/2022-05-23-fantasy-quest-rpg.html' | relative_url }}>).* <!--more-->
 
 I'm abolishing classes.
 

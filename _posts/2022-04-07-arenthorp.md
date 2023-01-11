@@ -8,7 +8,7 @@ categories:
 - Maps
 - Role Playing Games
 ---
-[![A map of a small, rural village entitled "Arenthorp"](<{{ site.baseurl }}/assets/2022-04-07/arenthorp.png>)](<{{ site.baseurl }}/assets/2022-04-07/arenthorp.png>)
+[![A map of a small, rural village entitled "Arenthorp"](<{{ 'assets/2022-04-07/arenthorp.png' | relative_url }}>)](<{{ 'assets/2022-04-07/arenthorp.png' | relative_url }}>)
 
 It's been a while, so I thought I'd publish a map I put together for an adventure I'm working on.<!--more-->
 

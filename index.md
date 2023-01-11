@@ -72,7 +72,7 @@ https://www.ayush.nz/2022/02/creating-article-series-posts-navigation-jekyll
 
 <ul>
 {% for post in series_posts %}{% if post.series %}
-<li><a href="{{site.baseurl}}/series/{{post.series}}">{{post.series}}</a></li>
+<li><a href="{{'series/' | append: post.series | relative_url }}">{{post.series}}</a></li>
 {%endif%}{% endfor %}
 {% endif %}
 </ul>
@@ -85,11 +85,12 @@ https://www.ayush.nz/2022/02/creating-article-series-posts-navigation-jekyll
 {%comment%}
 <!-- Apparently site.categories is an array of tuples, with the category name followed by all of the actual content in that category, hence why we need to use the | first filter. -->
 {%endcomment%}
-  <li><a href="{{ site.baseurl }}/categories/{{category | first }}.html" name="{{ category | first }}">{{ category | first }}</a></li>
+  {% assign category_name = category | first %}
+  <li><a href="{{ 'categories/' | append: category_name | relative_url  }}">{{ category_name }}</a></li>
 {% endfor %}
 {%comment%}
 <!-- FUTURE: Delete this if I ever get rid of the uncategorized posts -->
 {%endcomment%}
-  <li><a href="{{ site.baseurl }}/categories/Uncategorized.html" name="uncategorized">Uncategorized</a></li>
+  <li><a href="{{ 'categories/Uncategorized' | relative_url }}">Uncategorized</a></li>
 </ul>
 

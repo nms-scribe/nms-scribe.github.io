@@ -1,11 +1,11 @@
 <header>
 
 <{%if include.head_level%}{{include.head_level}}{%else%}h2{%endif%}><a href="{{ post.url }}">{{ post.title }}</a></{%if include.head_level%}{{include.head_level}}{%else%}h2{%endif%}>
-<p>{{ post.date | date: "%F" }} {% for category in post.categories %}<a href="{{site.url}}/categories/{{category}}">{{ category }}</a>{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
+<p>{{ post.date | date: "%F" }} {% for category in post.categories %}<a href="{{'/categories/' | append: category | relative_url}}">{{ category }}</a>{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
 </header>
 
 <div>
 
-{{ post.content | split: site.excerpt_separator | first }} <a class="read-more" href="{{ site.baseurl }}{{ post.url }}">Read more...</a></p>
+{{ post.content | split: site.excerpt_separator | first }} <a class="read-more" href="{{ post.url | relative_url }}">Read more...</a></p>
 
 </div>

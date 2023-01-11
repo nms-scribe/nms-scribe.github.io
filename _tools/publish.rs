@@ -390,7 +390,7 @@ fn replace_image_tag(image_args: &str, date_slug: &str, environment: &Environmen
 
     tasks.add_image_task(environment,source,target.clone(),watermark,&size_format)?;
 
-    let result = if full_link {
+    let _result = if full_link {
         let thumbnail_path = if let Some((size,format)) = size_format {
             if size.width(&format) > CONTENT_WIDTH  {
                 // NOTE: This will cause ImageMagick to always convert the thumbnail to png
@@ -408,14 +408,15 @@ fn replace_image_tag(image_args: &str, date_slug: &str, environment: &Environmen
             new_file_path.clone()
         };
 
-        format!("[![{}](<{}/assets/{}>)](<{}/assets/{}>)",alt,"{{site.baseurl}}",thumbnail_path,"{{site.baseurl}}",new_file_path);
+        format!("[![{}](<{{{{'assets/' | append: {} | relative_url}}}}>)](<{{{{'assets/' | append: {} | relative_url}}}}>)",alt,thumbnail_path,new_file_path);
         todo!("The full-link attribute hasn't been tested yet.")
     } else {
-        format!("![{}](<{}/assets/{}>)",alt,"{{site.baseurl}}",new_file_path)
+        format!("![{}](<{{{{'assets/' | append: {} | relative_url}}}}>)",alt,new_file_path);
+        todo!("Test the modified image formatting results")
     };
 
 
-    Ok(result)
+//TODO:    Ok(result)
 
 
 

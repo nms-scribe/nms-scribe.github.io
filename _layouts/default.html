@@ -27,8 +27,8 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
   <body>
     <header id="nameplate">
       <div class="logo">
-        <a href="{{ site.url }}" rel="home" aria-current="page">
-            <img src="{{ site.baseurl }}/assets/logos/nms-profile-monogram.png" alt="A monogram with the letters 'N' 'M' and 'S'." width="120px">
+        <a href="{{ '' | absolute_url }}" rel="home" aria-current="page">
+            <img src="{{ 'assets/logos/nms-profile-monogram.png' | relative_url }}" alt="A monogram with the letters 'N' 'M' and 'S'." width="120px">
         </a>
       </div>
       <h1>{{ site.title }}</h1>
@@ -36,7 +36,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
       {%comment%}
       <!-- the data-no-search link prevents the create_search_index script from following the link. The script will also not follow external links -->
       {%endcomment%}
-      <p><a data-search-dont-scan="" href="{{site.baseurl}}/feed.xml">
+      <p><a data-search-dont-scan="" href="{{ 'feed.xml' | relative_url }}">
         <!-- https://commons.wikimedia.org/wiki/File:Feed-icon.svg released under Mozilla Public License -->
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1em" height="1em" id="RSSicon" viewBox="0 0 256 256">
           <defs>
@@ -58,14 +58,14 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
     </header>
     <div id="main-content">
       <nav>
-            <a href="{{ site.baseurl }}/">N M Sheldon</a>
-            <a href="{{ site.baseurl }}/posts.html">Posts</a>
-            <a href="{{ site.baseurl }}/fiction.html">Fiction</a>
-            <a href="{{ site.baseurl }}/role-playing-games.html">Role-Playing Games</a>
+            <a href="{{ '/' | relative_url }}">N M Sheldon</a>
+            <a href="{{ 'posts.html' | relative_url }}">Posts</a>
+            <a href="{{ 'fiction.html' | relative_url }}">Fiction</a>
+            <a href="{{ 'role-playing-games.html' | relative_url }}">Role-Playing Games</a>
             <a rel="me" href="https://dice.camp/@nmsheldon">Mastodon ⮕</a>
             <a rel="me" href="https://www.facebook.com/nms.scribe">Facebook ⮕</a>
             <a rel="me" href="https://twitter.com/nms_scribe">Twitter ⮕</a>
-            <form action="{{site.baseurl}}/search.html" method="get" id="header-form-search">
+            <form action="{{ 'search.html' | relative_url }}" method="get" id="header-form-search">
               <input type="text" name="q" id="header-input-search"/>
               <button class="svg-button" id="header-submit-search">
                 <!-- https://commons.wikimedia.org/wiki/File:Magnifying_glass_icon.svg released under public domain-->

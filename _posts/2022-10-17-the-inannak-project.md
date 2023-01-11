@@ -9,7 +9,7 @@ categories:
 - Worldbuilding
 series: Inannak
 ---
-Back in February, I posted about an experimental [fantasy world called Inannak](<{{ site.baseurl }}/posts/2022-02-04-inannak-portents-of-the-end.html>). I set it aside because I have so many other projects I want to work on. But In a few weeks or months, I plan to bring Inannak back to this blog, and I have ambitious plans.<!--more-->
+Back in February, I posted about an experimental [fantasy world called Inannak](<{{ 'posts/2022-02-04-inannak-portents-of-the-end.html' | relative_url }}>). I set it aside because I have so many other projects I want to work on. But In a few weeks or months, I plan to bring Inannak back to this blog, and I have ambitious plans.<!--more-->
 
 There isn't much I can get out of a worldbuilding project beyond personal enjoyment. I could use it to develop a setting for fantasy stories or games. But I would argue there are more efficient ways to do that than building a whole separate document. I could sell it as a work on its own, as a fantasy roleplaying setting in a big hardcover book with a shiny cover. But I doubt my chances of making a positive profit off that without the backing of a well-known gaming company.
 

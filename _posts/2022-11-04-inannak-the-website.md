@@ -14,7 +14,7 @@ You're probably asking yourself, didn't Neil just announce this project last mon
 
 In a futile attempt to grab attention for my hobby, I'm trying something different. I've already stated that the Inannak project will be open and free online. But I'm not just talking about the finished products. I mean that the whole process will be open. That openness is achieved in two strategies. 
 
-The first strategy are the updates to this blog. Posts in the [Innanak category](<{{ site.baseurl }}/categories/Inannak.html>) will discuss my progress, ideas and plans.
+The first strategy are the updates to this blog. Posts in the [Innanak category](<{{ 'categories/Inannak.html' | relative_url }}>) will discuss my progress, ideas and plans.
 
 The second strategy is the book itself, or rather, a website version of it. I'm calling it a "living document", which I explain more there. You can watch Inannak evolve as I work. I will also provide a forum to take comments, suggestions, and promote discussion. This feedback can help make Inannak into a world where you will want to play.
 

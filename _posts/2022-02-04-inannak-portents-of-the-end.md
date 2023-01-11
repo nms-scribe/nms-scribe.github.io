@@ -10,7 +10,7 @@ categories:
 - Worldbuilding
 series: Inannak
 ---
-[![A map of a fantasy world in an elliptical projection, with a single title "Inannak: Portents of the End"](<{{ site.baseurl }}/assets/2022-02-04/inannak-global-view-small.png>)](<{{ site.baseurl }}/assets/2022-02-04/inannak-global-view-small.png>)
+[![A map of a fantasy world in an elliptical projection, with a single title "Inannak: Portents of the End"](<{{ 'assets/2022-02-04/inannak-global-view-small.png' | relative_url }}>)](<{{ 'assets/2022-02-04/inannak-global-view-small.png' | relative_url }}>)
 
 One of my creative paths is fantasy cartography. Here's a work in progress.<!--more-->
 

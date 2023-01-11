@@ -10,9 +10,9 @@ categories:
 - Worldbuilding
 series: Inannak
 ---
-[![A preview map of Inannak. The preview shows a map of a fantasy world in an elliptical projection, surrounded by abstract knot-like artwork and a text-art display of the word "Inannak".](<{{ site.baseurl }}/assets/2022-12-22/inannak-preview-a5-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/inannak-preview-a5-150-wm.png>)
+[![A preview map of Inannak. The preview shows a map of a fantasy world in an elliptical projection, surrounded by abstract knot-like artwork and a text-art display of the word "Inannak".](<{{ 'assets/2022-12-22/inannak-preview-a5-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/inannak-preview-a5-150-wm.png' | relative_url }}>)
 
-I'd like to present to you a world map for my [Inannak project](<{{ site.baseurl }}/posts/2022-10-17-the-inannak-project.html>). I call this a preview, I may get to a full poster map at some point. With this image, I'm also playing with decorations, text art, and other gewgaws, which may be important in fantasy maps. I appreciate any comments, suggestions, or questions.<!--more-->
+I'd like to present to you a world map for my [Inannak project](<{{ 'posts/2022-10-17-the-inannak-project.html' | relative_url }}>). I call this a preview, I may get to a full poster map at some point. With this image, I'm also playing with decorations, text art, and other gewgaws, which may be important in fantasy maps. I appreciate any comments, suggestions, or questions.<!--more-->
 
 But the gewgaws took only a few days, the real work was the map itself. That's what I want to talk about today. This map represents a fully developed physical world, with landforms, water features, climate, and vegetation growing on it.
 
@@ -59,15 +59,15 @@ To create a world like this, I needed elevation data: the basic structure of the
 
 So far, I've found a lot of random terrain generation algorithms, but nothing comes anywhere near natural tectonic processes. If you are ever interested in creating a world from scratch, I'd suggest perusing the [Worldbuilding Pasta blog](<https://worldbuildingpasta.blogspot.com/p/blog-page.html>), specifically what the author has to say about [simulating plate tectonics](<https://worldbuildingpasta.blogspot.com/2020/01/an-apple-pie-from-scratch-part-va.html#simulatingplatetectonics>).
 
-Those failed searches for easy terrain led me to the idea of using something from the real world. Unfortunately, anything I use off of Earth will be too recognizable, which isn't what I wanted. Thus, [I was delighted when I found out there was data available for non-Earth planets](<{{ site.baseurl }}/posts/2022-02-04-inannak-portents-of-the-end>). I chose Venus for the extent of the data available, and for how few obvious craters there were.
+Those failed searches for easy terrain led me to the idea of using something from the real world. Unfortunately, anything I use off of Earth will be too recognizable, which isn't what I wanted. Thus, [I was delighted when I found out there was data available for non-Earth planets](<{{ 'posts/2022-02-04-inannak-portents-of-the-end' | relative_url }}>). I chose Venus for the extent of the data available, and for how few obvious craters there were.
 
 I downloaded the "Venus Magellan Global Topography 4641m v2" data from the [US Geological Survey](<https://astrogeology.usgs.gov/search/>). Below is an image of what I pulled into QGIS, with coloring added for elevation:
 
-[![The original DEM of Venus with a simple elevation color scheme going from green to red to white as elevation increases. There are large empty areas where the original Magellan mission did not produce any data.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-original-dem-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-original-dem-a6-150-wm.png>)
+[![The original DEM of Venus with a simple elevation color scheme going from green to red to white as elevation increases. There are large empty areas where the original Magellan mission did not produce any data.](<{{ 'assets/2022-12-22/screenshot-original-dem-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-original-dem-a6-150-wm.png' | relative_url }}>)
 
 As you can see, it required processing to get the data to where I wanted it, but it was easier than running the plate tectonics by hand. At most, I needed to fill in the empty spots, which I did with a combination of random data and interpolation. But I also wanted to adjust the world's axis to create a more interesting combination of continents. All of that led to this:
 
-[![The processed DEM to be used for Inannak, with the same elevation color scheme. The empty places have been filled in. The geography has been shifted to different latitudes and longitudes.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-processed-dem-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-processed-dem-a6-150-wm.png>)
+[![The processed DEM to be used for Inannak, with the same elevation color scheme. The empty places have been filled in. The geography has been shifted to different latitudes and longitudes.](<{{ 'assets/2022-12-22/screenshot-processed-dem-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-processed-dem-a6-150-wm.png' | relative_url }}>)
 
 I guess it kind of looks like some sort of sea creature.
 
@@ -76,11 +76,11 @@ I guess it kind of looks like some sort of sea creature.
 
 While I could manually draw ocean, lakes, and rivers over this map, there's no reason to do this. By basic physics, water flows to the bottom. Since I have an elevation map, it's not difficult to compute where that flow occurs. I chose a sea level based on an expected percentage of land covered with ocean:
 
-[![The same DEM with blue color covering up areas intended to be under the ocean.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-elevation-with-ocean-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-elevation-with-ocean-a6-150-wm.png>)
+[![The same DEM with blue color covering up areas intended to be under the ocean.](<{{ 'assets/2022-12-22/screenshot-elevation-with-ocean-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-elevation-with-ocean-a6-150-wm.png' | relative_url }}>)
 
 Attempting to fill in the ocean based on that sea level led me to my first discovery. Inannak, probably because Venus doesn't have Earth-like orogeny and erosion cycles, is full of closed basins. These are areas of land which, due to topography, do not have any water flowing to the ocean. On Earth, we have a few examples: the Great Basin in the western part of the U.S. is one I'm most familiar with. On Inannak, they're all over the place. The below map shows these basins in ugly purple.
 
-[![The same DEM with blue color covering the ocean and land below sea level highlighted in purple. There is a lot of land below sea level.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-below-sea-level-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-below-sea-level-a6-150-wm.png>)
+[![The same DEM with blue color covering the ocean and land below sea level highlighted in purple. There is a lot of land below sea level.](<{{ 'assets/2022-12-22/screenshot-below-sea-level-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-below-sea-level-a6-150-wm.png' | relative_url }}>)
 
 In fact, many of the basins on Inannak are deeper than the elevation I chose for the ocean. This means a lot of quite large Death Valleys, but hopefully not so deadly.
 
@@ -88,7 +88,7 @@ These basins led to another quirk of Inannak when I ran processes to determine w
 
 You can see a couple of examples of this in the top middle of the map below:
 
-[![A portion of Inannak with a natural color scheme, showing rivers and lakes. Near the middle of the image are several examples of river networks that do not reach the ocean.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-streams-and-lakes-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-streams-and-lakes-a6-150-wm.png>)
+[![A portion of Inannak with a natural color scheme, showing rivers and lakes. Near the middle of the image are several examples of river networks that do not reach the ocean.](<{{ 'assets/2022-12-22/screenshot-streams-and-lakes-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-streams-and-lakes-a6-150-wm.png' | relative_url }}>)
 
 I blamed this unique feature on the elemental land building processes, and moved on. Fantasy worlds should always have fantastic features.
 
@@ -103,11 +103,11 @@ As specified in that article, I used a tool called [ExoPlaSim](<https://github.c
 
 Here's a map with the major climate zones, I didn't give it a legend, they mostly run equator to pole in this order: Tropical, Steppe/Desert (in reds and pinks), Subtropical, Continental, and Polar (in grey and white).
 
-[![A map of Inannak with five major Köppen-Geiger climate zones each given a unique color.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-climates-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-climates-a6-150-wm.png>)
+[![A map of Inannak with five major Köppen-Geiger climate zones each given a unique color.](<{{ 'assets/2022-12-22/screenshot-climates-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-climates-a6-150-wm.png' | relative_url }}>)
 
 From that, I did a little post-processing to make the climate edges more wiggly. I applied a natural color scheme found in the scripts provided in the Worldbuilding Pasta blog. And I added some hillshading for elevation:
 
-[![A final map of Inannak. A natural color scheme covers the land. The ocean is colored in shades of blue, getting darker as it becomes deeper. A pale overlay indicates where the ocean is covered with permanent ice. Elevation is indicating using hillshading technique.](<{{ site.baseurl }}/assets/2022-12-22/screenshot-final-map-a6-150-wm.png>)](<{{ site.baseurl }}/assets/2022-12-22/screenshot-final-map-a6-150-wm.png>)
+[![A final map of Inannak. A natural color scheme covers the land. The ocean is colored in shades of blue, getting darker as it becomes deeper. A pale overlay indicates where the ocean is covered with permanent ice. Elevation is indicating using hillshading technique.](<{{ 'assets/2022-12-22/screenshot-final-map-a6-150-wm.png' | relative_url }}>)](<{{ 'assets/2022-12-22/screenshot-final-map-a6-150-wm.png' | relative_url }}>)
 
 The rest was just mapmaking.
 
