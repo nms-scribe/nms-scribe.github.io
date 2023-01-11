@@ -4,14 +4,6 @@ layout: default
 
 {% comment %}
 <!---
-TODO: Next:
-[ ] Comments - One problem with 'issues' is that I have to create the issue, and if there are never any comments then there's no need for an issue. Not to mention, it requires logging in to Github, doesn't it? I need some way of doing anyonymous comments. How does the blogger stuff do that?
-    * Okay, here's the plan:
-      * Set up a "comments" panel at the bottom of each post, it contains:
-        * a button to load disquss with a warning that this loads disquss, which can track you, but it's the only way to comment anonymously (with moderation).
-        * a button to click if you don't want to load disquss, which will give you a bunch of other ideas for contacting me, including the social media and the discussion page. Unfortunately, I don't have any other way to handle anonymous comments, but with disquss.
-[ ] Custom 404 page?
-
 FUTURE: I'm seriously contemplating rewriting this whole thing in a language I know just to get rid of the ruby configuration files and other weirdness such as automatically creating style.css even when I want something else. A rust-based site builder would be nice, but I need my own templating language.
  -->
 {%endcomment%}
@@ -30,17 +22,7 @@ This blog is dedicated to updating the world about the creative projects I’m w
 
 As is tradition, this blog will probably begin with a burst of posts over the next few months, followed by a gradual decline until it goes ten or twenty years without anything new.
 
-If you are looking for something specific, see below for a list of categories, or a list of series. Or use the search input above to do a text search of all posts and pages.
-
-## On Commenting
-
-After several days of research, I decided that there are no good commenting systems for static websites. The best options I've found all require you to log in to some other service. I believe in the power of the shy, polite, anonymous voice, and I want my door open to them. And the only way I can do that without paying money[^1], or building my own server, is using Disqus. As I know they are a notorious site tracking system, I've set it up so it is not turned on until *you* turn it on. Just press the button on the bottom of each post to load the links, iframes, scripts, etc. and turn it on.
-
-If you are uncomfortable with Disqus, and want to make your voice heard, you have a number of options, all of which require you to have an account somewhere. A github account will get you into the discussions forum linked over on the left of every page. Other accounts will give you access to the social media links at the top of every page. You're still anonymous to me and the rest of its audience, you're just not anonymous to those companies.
-
-All comments are expected to be respectful, tolerant, rated PG, and not promotional. All comments require approval, which may take time.
-
-[^1]: My site doesn't get enough traffic to make it worth paying money for it.
+If you are looking for something specific, see below for a list of categories, or a list of series. Or use the search input above to do a text search of all posts and pages. There's a section about comments way down at the bottom.
 
 ## Recent Posts
 
@@ -93,4 +75,15 @@ https://www.ayush.nz/2022/02/creating-article-series-posts-navigation-jekyll
 {%endcomment%}
   <li><a href="{{ 'categories/Uncategorized' | relative_url }}">Uncategorized</a></li>
 </ul>
+
+## On Commenting
+
+After several days of research, I decided that there are no decent commenting systems for static websites. The best options I've found all require you to log in to some other service. I believe in the power of the shy, polite, anonymous voice, and I want my door open to them. And the only way I can do that without paying money[^1], or building my own server, is using Disqus[^2]. As I know they are a notorious site tracking system and ad server, I've set it up so it is not turned on until *you* turn it on. Just press the button on the bottom of each post to load the links, iframes, scripts, etc., and you will be able to view and add comments.
+
+If you are uncomfortable with Disqus, and want to make your voice heard, you have a number of options, all of which require you to have an account somewhere. A github account will get you into the discussions forum linked over on the left of every page. Other accounts will give you access to the social media links at the top of every page. You're still anonymous to me and the rest of its audience, you're just not anonymous to those companies.
+
+All comments are expected to be respectful, tolerant, legal, rated PG, and non-promotional. All comments require approval, which may take time.
+
+[^1]: My site doesn't get enough traffic to make it worth paying money for it.
+[^2]: Disqus offers the ability to comment as a guest with pseudonym and e-mail address, which many other services do not offer. After a few tests, I can't see the e-mail you use with it, and I'm not certain that the e-mail address is verified.
 

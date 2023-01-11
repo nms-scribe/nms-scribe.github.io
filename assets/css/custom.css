@@ -671,16 +671,16 @@ label {
 }
 
 #page-comments {
-  border-top: 1px solid var(--header-background);
+  box-shadow: 0 0 5px 1px var(--body-color);
+  width: 100%;
   max-width: calc(var(--content-width) + 300px);
   text-align: center;
+  padding: 10px;
 } 
 
 #disqus-tooltip {
   display: block;
-  text-align: left;
   color: var(--body-color);
-  box-shadow: 0 0 5px 1px var(--body-color);
   padding: 2px;
 }
 

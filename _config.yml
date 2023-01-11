@@ -22,7 +22,6 @@ title: N M Sheldon
 email: 106749884+nms-scribe@users.noreply.github.com
 description: Blogging about role-playing games, worldbuilding, maps and writing
 baseurl: "" # the subpath of your site, e.g. /blog
-#url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  nms-scribe
 excerpt_separator: <!--more-->
 
