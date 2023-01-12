@@ -1,3 +1,14 @@
+{%comment%}
+<!--
+Copyright © 2023 Neil M. Sheldon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+{%endcomment%}
 <header>
 
 <{%if include.head_level%}{{include.head_level}}{%else%}h2{%endif%}><a href="{{ post.url }}">{{ post.title }}</a></{%if include.head_level%}{{include.head_level}}{%else%}h2{%endif%}>
@@ -6,6 +17,17 @@
 
 <div>
 
+{%comment%}
+<!-- I'm doing my own excerpt processing in order to be able to attach the read-more link at the end of the paragraph instead of in the next paragraph. -->
+{%endcomment%}
+{% if post.content contains site.excerpt_separator %}
 {{ post.content | split: site.excerpt_separator | first }} <a class="read-more" href="{{ post.url | relative_url }}">Read more...</a></p>
+{% else %}
+{% if post.excerpt %} <!-- the excerpt is defined in frontmatter -->
+<p>{{ post.excerpt }} <a class="read-more" href="{{ post.url | relative_url }}">Read more...</a></p>
+{% else %} <!-- use the first paragraph end as the separator -->
+{{ post.content | split: '</p>' | first }} <a class="read-more" href="{{ post.url | relative_url }}">Read more...</a></p>
+{%endif%}
+{% endif %}
 
 </div>

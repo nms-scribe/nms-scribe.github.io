@@ -614,6 +614,10 @@ label {
   margin-bottom: 22px;
 }
 
+#main-content header li {
+  list-style-type: none;
+}
+
 
 
 #main-content footer {
@@ -656,6 +660,11 @@ label {
   justify-content: center;
   max-width: calc(var(--content-width) + 300px);
   border-bottom: 1px solid var(--body-color);
+}
+
+#page-content nav.post-navigation:last-of-type {
+  margin-bottom: 10px;
+
 }
 
 #page-content nav.post-navigation span:nth-child(1) {

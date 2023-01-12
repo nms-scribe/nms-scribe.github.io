@@ -9,17 +9,17 @@ categories:
 - Role Playing Games
 series: Fantasy Quest RPG
 ---
-*This is part of a series of articles on something I'm calling Fantasy Quest RPG, a thought experiment on a new role-playing game with traditional roots but lots of changes. If you want to start at the beginning go [here](<{{ 'posts/2022-05-23-fantasy-quest-rpg.html' | relative_url }}>).* <!--more-->
+
 
 I'm abolishing classes.
 
-(Sorry, this is a long post, because it's probably the biggest change I would make to this game, so it needs to be.)
+(Sorry, this is a long post, because it's probably the biggest change I would make to this game, so it needs to be.)<!--more-->
 
 Classes are limiting. They pigeonhole characters into a specific role[^1]. I remember reading fantasy stories and imagining what class the characters would play. In almost every case, I'd realize the characters were all just fighters and wizards, with the occasional thief thrown in[^2], despite each of them having very different skillsets[^3].
 
 As I was growing the ideas for this series, I looked to the internet to learn why role-playing games have classes. As usual, the internet proved I was not the first to come up with the idea of getting rid of them. I found one strong argument for them. Classes give new players a path to follow. The alternative is to give them skills and powers from a huge menu to choose from. So basically, it's the same logic that marketers are said to use when suggesting restaurants to have shorter menus[^4]. I don't like it, but I do understand it. However I feel like there could be other alternatives that would please everybody.
 
-That said, if I was told that classes were non-negotiable, I would still change them. In my class-based version of Fantasy Quest, there would be five "roles": fighter, spellcaster, dungeoneer, scout, and expert. These roles would all have a basic skill-set that would be customized with a menu of additional skills.
+That said, if I was told that classes were non-negotiable, I would still change them. In my class-based version of Fantasy Quest, there would be five "roles": fighter, spellcaster, dungeoneer, scout (wilderness), and expert. These roles would all have a basic skill-set that would be customized with a menu of additional skills.
 
 
 ## Skills
@@ -32,7 +32,7 @@ There is no proficiency bonus here. The proficiency bonus is the skill rank, and
 
 **Commoner Skills.** Skills like those used in fifth edition will be known as commoner skills. These are things that aren't specifically related to adventuring. Commoner skills are all based on skill checks, as described above, there are no special features given to characters who rank up in those skills.
 
-Some skills, especially the knowledge skills, will be more specialized. For example, your history skill isn't just a general history. You learned about the history of one culture, plus general world history. If you need to know some specific detail about another unrelated culture, you can't use your skill bonus. But if you need to know how that culture fit into world history, you can.
+Some skills, especially the knowledge skills, will be more specialized. For example, your history skill isn't just a general history. You learned about the history of one culture, plus general world history (from a specific perspective). If you need to know some specific detail about another unrelated culture, you can't use your skill bonus. But if you need to know how that culture fit into world history, you can.
 
 **Languages.** I want to treat languages as commoner skills, as well. Characters could have non-fluent skills in a language, allowing them to attempt communication with a die roll even if they don't know the language well. As a language nerd, I would also expect dialects to come into play in this. I would also consider reading and writing as different skills for each language. It was historically common for people to be able to do one without the other. However, I don't want to turn Fantasy Quest RPG into a linguistics game, so I'll leave that for something to think about if this ever becomes serious.
 
@@ -50,7 +50,7 @@ A fighting character does not get a general attack bonus. A sword and bow specia
 
 **Spellcasting Skills.** I will delve further into spellcasting and magic in another article. But for now, I want to explain how spellcasting skills work. Since combat roles need to buy into two or three different skills as they advance, I also need to split the spellcasting skills into a couple to balance that. These skills would be a a magic power skill and a magic theory skill.
 
-The magic power skill specifies how well you can cast spells. You rank up in this skill to train your body to turn magical energy into spells. Thus, each rank in a magic power skill gives you more spell points you can use every day. I suspect this skill will be a generic one that applies to every type of spellcasting, since the spell point accumulation will be the same for each of them. This skill also determines your spellcasting bonuses and difficulty classes.
+The magic power skill specifies how well you can cast spells. You rank up in this skill to learn methods to turn magical energy into spells. Thus, each rank in a magic power skill gives you more spell points you can use every day. I suspect this skill will be a generic one that applies to every type of spellcasting, since the spell point accumulation will be the same for each of them. This skill also determines your spellcasting bonuses and difficulty classes.
 
 The magic theory skill specifies what kinds of spells you know. Each rank gives you access to more spells of higher power. It also tells you which list of spells you can choose from. You can rank in arcane magic, divine magic, sorcery, illusions, and other kinds of magic.
 

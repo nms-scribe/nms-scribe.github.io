@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{%comment%}
 <!--
 Copyright © 2023 Neil M. Sheldon
 
@@ -10,21 +11,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
-
-<header>
-<h1>{{page.title}}</h1>
-<p><b>Published:</b> {{ page.date | date: "%F" }}</p>
-{% unless page.categories == empty %}<p><b>Categories:</b> {% for category in page.categories %}<a href="{{ 'categories/' | append: category | relative_url }}">{{ category }}</a>{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>{%endunless%}
-</header>
-
-{{ content }}
-
-
-<nav class="post-navigation">
-    <span class="previous-link">{% if page.previous %}<a rel="prev" href="{{ page.previous.url }}">{{ page.previous.title }} ⏴</a>{% endif %}</span>
-    <span class="navigation-title"><a rel="up" href="{{ 'posts' | relative_url }}">Posts</a></span>
-    <span class="next-link">{% if page.next %}<a rel="next" href="{{ page.next.url }}">⏵ {{ page.next.title }}</a>{% endif %}</span>
-</nav>
+{%endcomment%}
 
 {% if page.series %}
 {%comment%}
@@ -45,6 +32,31 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
         {% assign series_next = post %}
     {% endif %}
 {% endfor %}
+{% endif %}
+
+<header>
+<h1>{{page.title}}</h1>
+<p><b>Published:</b> {{ page.date | date: "%F" }}</p>
+{% unless page.categories == empty %}<p><b>Categories:</b> {% for category in page.categories %}<a href="{{ 'categories/' | append: category | relative_url }}">{{ category }}</a>{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>{%endunless%}
+{% if page.series %}
+<p><b>Series:</b> <a rel="first" href="{{ 'series/' | append: page.series | relative_url }}">{{ page.series }}</a></p><ul>
+{% if series_previous %}<li><p><b>Previous:</b> <a rel="prev" href="{{ series_previous.url }}">{{ series_previous.title }}</a></p></li>{%endif%}
+{% if series_next %}<li><p><b>Next:</b> <a rel="next" href="{{ series_next.url }}">{{ series_next.title }}</a></li></p></ul>{%endif%}
+{%endif%}
+</header>
+
+
+
+{{ content }}
+
+
+<nav class="post-navigation">
+    <span class="previous-link">{% if page.previous %}<a rel="prev" href="{{ page.previous.url }}">{{ page.previous.title }} ⏴</a>{% endif %}</span>
+    <span class="navigation-title"><a rel="up" href="{{ 'posts' | relative_url }}">Posts</a></span>
+    <span class="next-link">{% if page.next %}<a rel="next" href="{{ page.next.url }}">⏵ {{ page.next.title }}</a>{% endif %}</span>
+</nav>
+
+{% if page.series %}
 <nav class="post-navigation">
     <span class="previous-link">{% if series_previous %}<a rel="prev" href="{{ series_previous.url }}">{{ series_previous.title }} ⏴</a>{% endif %}</span>
     <span class="navigation-title"><a rel="up" href="{{ 'series/' | append: page.series | relative_url }}">{{ page.series }} Series</a></span>
