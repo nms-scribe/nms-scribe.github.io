@@ -364,8 +364,8 @@ fn confirm_excerpt(post: &Rc<RefCell<Post>>) -> Result<(),Box<dyn Error>> {
 
 
 
-fn replace_image_tag(image_args: &str, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
-    let ImageArguments { alt, filename, size_format, watermark, full_link } = ImageArguments::parse(environment,image_args)?;
+fn replace_image_tag(attrs: &str, alt: &str, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
+    let ImageArguments { alt, filename, size_format, watermark, full_link } = ImageArguments::parse(attrs,alt)?;
 
     let source = environment.get_original_image_filename(&filename)?;
     let new_file_path = format!("{}/{}",date_slug,filename);
@@ -426,8 +426,8 @@ fn replace_image_tag(image_args: &str, date_slug: &str, environment: &Environmen
 fn fix_images(post: &Rc<RefCell<Post>>, date_slug: &str, environment: &Environment, tasks: &mut TaskList) -> Result<(),Box<dyn Error>> {
 
     let borrowed = post.borrow();
-    match environment.replace_all_draft_image_tags(&borrowed.body,|args| {
-        replace_image_tag(args, date_slug, environment, tasks)
+    match environment.replace_all_draft_image_tags(&borrowed.body,|args,alt| {
+        replace_image_tag(args, alt, date_slug, environment, tasks)
     }) {
         Err(err) => Err(format!("Error processing images, please edit post and try again: {}",err).into()),
         Ok(fixed) => {
@@ -685,63 +685,62 @@ struct ImageArguments {
 impl ImageArguments {
 
 
-    fn parse(environment: &Environment, arguments_text: &str) -> Result<Self,Box<dyn Error>> {
-        if let Some((attributes,filename,alt)) = environment.capture_draft_image_args(arguments_text) {
-            if let Some(filename) = filename {
-                let mut size = None;
-                let mut format = None;
-                let mut watermark = true;
-                let mut full_link = false;
-                
-                if let Some(attributes) = attributes {
-                    let attributes = attributes.as_str().split(",");
-                    for attribute in attributes {
-                        let attribute = attribute.trim();
-                        let attribute: Vec<&str> = attribute.splitn(2,"=").collect();
-                        if attribute.len() > 1 {
-                            let (name,value) = (attribute[0],attribute[1]);
-                            match name {
-                                "size" => size = Some(value.parse::<ImageSize>().map_err(|e| format!("error parsing size attribute for {}: {}",filename,e))?),
-                                "format" => format = Some(value.parse::<ImageFormat>().map_err(|e| format!("error parsing format attribute for {}: {}",filename,e))?),
-                                "watermark" => watermark = value.parse::<bool>().map_err(|e| format!("error parsing watermark attribute for {}: {}",filename,e))?,
-                                "full-link" => full_link = value.parse::<bool>().map_err(|e| format!("error parsing full-link attribute for {}: {}",filename,e))?,
-                                _ => Err(format!("Found unknown attribute in a draft.image tag: {}={}",name,value))?
-                            }
-                        } else if attribute.len() > 0 {
-                            if attribute[0] != "" {
-                                Err(format!("Found unknown attribute in a draft.image tag: {}",attribute[0]))?
-                            }
-                        }
-                    }
-                };
+    fn parse(attributes: &str, alt: &str) -> Result<Self,Box<dyn Error>> {
+        let mut filename = None;
+        let mut size = None;
+        let mut format = None;
+        let mut watermark = true;
+        let mut full_link = false;
 
-                let size_format = match (size, format) {
-                    (Some(_),None) => Err("A draft image specified a size attribute without a format.")?,
-                    (None,Some(_)) => Err("A draft image specified a format attribute without a size.")?,
-                    (Some(size),Some(format)) => Some((size,format)),
-                    (None,None) => None
-                };
-            
-            
-
-                if let Some(alt) = alt {
-                    Ok(Self {
-                        filename,
-                        alt,
-                        size_format,
-                        watermark,
-                        full_link
-                    })
-                } else {
-                    Err(format!("Image '{}' did not have an alt attribute",filename).into())
-                }
-
-            } else {
-                Err("A draft.image tag was found without an image name.")?
+        macro_rules! parse_err {
+            ($attr: literal, $value: ident) => {
+                $value.parse().map_err(|e| format!("error parsing {} attribute for {}: {}",$attr,filename.clone().unwrap_or_else(|| "an image".into()),e))?
             }
-        } else {
-            Err("A draft image tag was found with no or invalid arguments.".into())
         }
+        
+        for attribute in attributes.split(",") {
+            let attribute = attribute.trim();
+            let attribute: Vec<&str> = attribute.splitn(2,"=").collect();
+            if attribute.len() > 1 {
+                let (name,value) = (attribute[0],attribute[1]);
+                match name {
+                    "source" => filename = Some(parse_err!("source",value)),
+                    "size" => size = Some(parse_err!("size",value)),
+                    "format" => format = Some(parse_err!("format",value)),
+                    "watermark" => watermark = parse_err!("watermark",value),
+                    "full-link" => full_link = parse_err!("full-link",value),
+                    _ => Err(format!("Found unknown attribute in a draft.image tag: {}={}",name,value))?
+                }
+            } else if attribute.len() > 0 {
+                if attribute[0] != "" {
+                    Err(format!("Found unknown attribute in a draft.image tag: {}",attribute[0]))?
+                }
+            }
+        }
+
+        let filename = if let Some(filename) = filename  {
+            filename
+        } else {
+            Err("A draft.image tag was found without an image name.")?
+        };
+        
+        let size_format = match (size, format) {
+            (Some(_),None) => Err("A draft image specified a size attribute without a format.")?,
+            (None,Some(_)) => Err("A draft image specified a format attribute without a size.")?,
+            (Some(size),Some(format)) => Some((size,format)),
+            (None,None) => None
+        };
+
+        let alt = alt.to_owned();
+    
+        Ok(Self {
+            filename,
+            alt,
+            size_format,
+            watermark,
+            full_link
+        })
+
     }
 }
 
@@ -767,8 +766,7 @@ struct Environment {
     series_folder: PathBuf,
     categories_script: PathBuf,
     search_index_script: PathBuf,
-    draft_image_pattern: Regex,
-    draft_image_args_pattern: Regex
+    draft_image_pattern: Regex
     
 }
 
@@ -784,40 +782,39 @@ impl Environment {
             series_folder: cd.join("series"),
             categories_script: cd.join("_tools").join("create_categories.js"),
             search_index_script: cd.join("_tools").join("create_search_index.js"),
-            draft_image_pattern: Regex::new(r"\{\{ *draft *\. *image([^}]*)\}\}")?,
-            // 1st and only capture is the arguments
-
-            draft_image_args_pattern: Regex::new(r"^ *(?:\[([^\]]*)?\] *)?: *(.*?) *(?:\| ?(.*?) *)?$")?
+            draft_image_pattern: Regex::new(r"\\drafting\\image *(?:\[([^]]*)\])? *(?:\{([^\}]*)\})?")?,
+            // '\drafting\image[(<arg>=<value>),*]{<alt-text>}
+            // 1st capture is the arguments, which are parsed with 'split', second is the alt text.
         })
         
     }
 
-    fn capture_draft_image_args(&self, source_str: &str) -> Option<(Option<String>,Option<String>,Option<String>)> {
-        if let Some(captures) = self.draft_image_args_pattern.captures(source_str) {
-            let convert = |a: regex::Match| a.as_str().into();
-            Some((captures.get(1).map(convert),captures.get(2).map(convert),captures.get(3).map(convert)))
-
-
-        } else {
-            None
-        }
-    }
-
-
-    fn replace_all_draft_image_tags<Callback: FnMut(&str) -> Result<String,Box<dyn Error>>>(&self, source_str: &str, mut callback: Callback) -> Result<String,Box<dyn Error>> {
+    fn replace_all_draft_image_tags<Callback: FnMut(&str, &str) -> Result<String,Box<dyn Error>>>(&self, source_str: &str, mut callback: Callback) -> Result<String,Box<dyn Error>> {
         let mut error = Default::default();
         let fixed = self.draft_image_pattern.replace_all(source_str,|captures: &Captures| {
-            if let Some(image_args) = captures.get(1) {
-                match callback(image_args.as_str()) {
+
+            macro_rules! default {
+                () => {
+                    format!("{}",&captures[0])
+                }
+            }
+
+            match (captures.get(1),captures.get(2)) {
+                (Some(args),Some(alt)) => match callback(args.as_str(),alt.as_str()) {
                     Ok(fixed) => fixed,
                     Err(err) => {
                         error = Some(err);
-                        format!("{}",&captures[0])
+                        default!()                        
                     }
+                },
+                (Some(_),None) => {
+                    error = Some("A drafting.image tag was found without alt text.".into());
+                    default!()
+                },
+                (None,_) => {
+                    error = Some("A drafting.image tag was found without attributes.".into());
+                    default!()
                 }
-            } else {
-                error = Some("An draft.image tag was found without any attributes.".into());
-                format!("{}",&captures[0])
             }
         });
         if let Some(error) = error {
@@ -1605,7 +1602,7 @@ fn run() -> Result<(),Box<dyn Error>> {
     let mut tasks = TaskList::new();
 
     io::write("Type ctrl-C to cancel.")?;
-    io::write("TIP: You can use '{{draft.image [attrs]: <file in drafts folder>}}' in your post to automate image processing")?;
+    io::write("TIP: You can use '\\drafting.image[attrs]{alt-text}' in your post to automate image processing")?;
 
     match choose_recipe(&environment)? {
         Recipe::Publish(draft_file) => {
