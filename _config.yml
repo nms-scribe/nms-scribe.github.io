@@ -55,3 +55,5 @@ exclude: # I have to include all of the defaults here just to add one directory 
   - vendor/ruby/
   - _tools/
   - test/
+  - _drafts/*.published
+  - _drafts/*.png # I put images in the drafts folder before publishing
