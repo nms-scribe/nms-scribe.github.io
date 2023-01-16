@@ -61,6 +61,14 @@ const walk_site = function() {
             // When running Jekyll locally, baseurl appears to point to '/'. So, we only need to look at files that start with '/'
             let href = link.href;
             if ((href != '/') && href.startsWith('/')) {
+                // get rid of query string and anchors
+                href = href.split('?')[0].split('#')[0];
+                // convert %20 to ' '
+                href = href.replaceAll('%20',' ');
+                if (href == '/') {
+                    // if that leaves us with a single slash, assume it's going to the index.
+                    href = '/index.html'
+                }
                 let link_path = path.join(WEBSITE_FILE_PATH,href);
                 if (link_path.endsWith('/')) {
                     // You can turn off searching the link with data-no-search. It's pretty much useless to actually link to a directory.
