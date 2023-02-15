@@ -1568,8 +1568,6 @@ fn publish(environment: &Environment, tasks: &mut TaskList, draft_file: FileChoi
 
     fix_images(&post,&date_slug,&environment,tasks)?;
 
-    // TODO: Set up commenting for new post
-
     let new_path = environment.posts_folder.join(format!("{}-{}.md",&date_slug,title_slug));
 
     tasks.add(SavePostTask::new(post,new_path).into())?;

@@ -57,3 +57,5 @@ exclude: # I have to include all of the defaults here just to add one directory 
   - test/
   - _drafts/*.published
   - _drafts/*.png # I put images in the drafts folder before publishing
+  - readme.md
+  

@@ -85,5 +85,5 @@ If you are uncomfortable with Disqus, and want to make your voice heard, you hav
 All comments are expected to be respectful, tolerant, legal, rated PG, and non-promotional. All comments require approval, which may take time.
 
 [^1]: My site doesn't get enough traffic to make it worth paying money for it.
-[^2]: Disqus offers the ability to comment as a guest with pseudonym and e-mail address, which many other services do not offer. After a few tests, I can veryify that I can't see the e-mail you use with it, and I'm not certain that the e-mail address is verified.
+[^2]: Disqus offers the ability to comment as a guest with pseudonym and e-mail address, which many other services do not offer. After a few tests, I can verify that I can't see the e-mail you use with it, and I'm not certain that the e-mail address is verified.
 

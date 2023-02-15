@@ -11,8 +11,6 @@ published: true
 ---
 
 
-<!-- TODO: Wait a day after part 3 and publish this -->
-
 I'm continuing on with this series as quickly as I can due to current events in the RPG industry. In this article I will discuss changes to the magic system.<!--more-->
 
 ## Spellcasting
