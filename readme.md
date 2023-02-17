@@ -15,7 +15,7 @@ To add a new blog entry, create it in the `_drafts` folder first.
 * `size`: A size to resize the image to. Values include `A5`-`A10` based on the standard paper sizes with those names with a dots per cm of 59, or `<integer>x<integer>` in pixels.
 * `format`: The format to resize the image to. Values include `l`, `p`, `landscape`, or `portrait`.
 * `watermark`: Whether to place a watermark on the image. Values include `true` or `false`.
-* `full-link`: Whether to turn the image into a thumbnail link to a full version of the image. *TODO:* Is the full image watermarked? Values include `true` or `false`.
+* `full-link`: Whether to turn the image into a thumbnail link to a full version of the image. The thumbnail will be size A6 or A7 depending on the format of the converted image. Values include `true` or `false`.
 
 *NOTE:* Some changes were made since the last publish attempt regarding the images, and the script might not work until they are tested.
 
@@ -24,3 +24,5 @@ To add a new blog entry, create it in the `_drafts` folder first.
 1) Run `_tools/publish.rs` (requires rust-script). The script will prompt you for which post you wish to publish, and run through a checklist of things to make sure you caught everything. 
 2) Make sure the website builds.
 3) Push the changes to github.
+
+Modified files will be placed in the _posts and _assets folders as necessary, and the originals will be given a `.published` extension.
