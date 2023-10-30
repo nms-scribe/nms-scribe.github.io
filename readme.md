@@ -23,6 +23,6 @@ To add a new blog entry, create it in the `_drafts` folder first.
 
 1) Run `_tools/publish.rs` (requires rust-script). The script will prompt you for which post you wish to publish, and run through a checklist of things to make sure you caught everything. 
 2) Make sure the website builds.
-3) Push the changes to github.
+3) Push the changes to GitHub.
 
 Modified files will be placed in the _posts and _assets folders as necessary, and the originals will be given a `.published` extension.
