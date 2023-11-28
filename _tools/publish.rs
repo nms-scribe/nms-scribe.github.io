@@ -1,4 +1,4 @@
-#!/usr/bin/env -S rust-script -o
+#!/usr/bin/env -S rust-script --cargo-output
 //! This is a regular crate doc comment, but it also contains a partial
 //! Cargo manifest.  Note the use of a *fenced* code block, and the
 //! `cargo` "language".
@@ -262,7 +262,7 @@ fn confirm_large_image(filename: &str, size: &ImageSize, format: &ImageFormat) -
 
 fn set_property_if_not_set(post: &Rc<RefCell<Post>>, property: &str, default: &str, tasks: &mut TaskList) -> Result<String,Box<dyn Error>> {
     let yaml_property = serde_yaml::to_value(property)?;
-    let yaml_default = serde_yaml::to_value(default.clone())?;
+    let yaml_default = serde_yaml::to_value(default)?;
     if let Some(existing) = post.borrow().frontmatter.get(&yaml_property) {
         io::write_info(&format!("Property {} is set to {:?}",property,existing))?;
         // don't do anything...
