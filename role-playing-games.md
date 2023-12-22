@@ -5,15 +5,25 @@ layout: default
 
 ## Available Now
 
+### The Curse of Arenthorp
+
+![Picture of a cover with the title "The Curse of Arenthorp"](<{{ 'assets/product-thumbnails/TheCurseofArenthorp-v1-cover.jpg' | relative_url }}>)
+
+A 1st to 2nd level adventure for Fifth Edition D&D, currently being written.
+
+The small hamlet of Arenthorp has fallen under a curse. Elemental creatures are causing havoc, and a mysterious hedge maze has grown around an old manse. Can you find the source of the curse and break it?
+
+[Available for $4.95 on Dungeon Masters Guild.](<https://www.dmsguild.com/product/464756/The-Curse-of-Arenthorp?src=blog>)
+
 ### The Smugglers of Grogmock Mound
 
-![Picture of a cover with the title "The Smugglers of Grogmock Mound"](<{{ 'assets/product-thumbnails/thesmugglersofgrogmockmound-v1-thumbnail.png' | relative_url }}>)
+![Picture of a cover with the title "The Smugglers of Grogmock Mound"](<{{ 'assets/product-thumbnails/TheSmugglersofGrogmockMound-v2-cover.jpg' | relative_url }}>)
 
 A 6-10 hour adventure for 5th-6th level characters in Fifth Edition D&D.
 
 Your party of brave adventurers comes to the rescue of a trading expedition betrayed by its own crew on the edge of the wilderness. You must track a lost wagon of valuable trade goods into forests of giant grass, and enter a primeval ruin full of forgotten magic. But the smugglers who live there have other plans for the goods, and no qualms about killing trespassers.
 
-[Available for pay-what-you-want on Dungeon Masters Guild.](<https://www.dmsguild.com/product/375688/The-Smugglers-of-Grogmock-Mound?src=blog>)
+[Available for $4.95 on Dungeon Masters Guild.](<https://www.dmsguild.com/product/375688/The-Smugglers-of-Grogmock-Mound?src=blog>)
 
 ### The Smuggler's Hideout
 
@@ -40,17 +50,12 @@ After millennia of oppression under the iron tentacles of the dread gods, the pe
 
 For more information, see my [Inannak posts](<{{'/categories/Inannak' | relative_url }}>).
 
-
+<!-- Unless I get back into this someday.
 ### The Witch of Fellwind Chasm
 
 A 5th-6th level adventure for Fifth Edition D&D, currently in planning.
 
 The guides who take travelers across Fellwind Chasm are missing, and rumors are told of a hag offering powerful boons for dishonorable favors. Will your party confront the hag, find the missing guides, and open up the chasm again?
-
-### The Curse of Arenthorp
-
-A 1st level adventure for Fifth Edition D&D, currently being written.
-
-The small hamlet of Arenthorp has fallen under a curse. Elemental creatures are causing havoc, and a mysterious hedge maze has grown around an old manse. Can you find the source of the curse and break it?
+-->
 
 {% include comments.html %}

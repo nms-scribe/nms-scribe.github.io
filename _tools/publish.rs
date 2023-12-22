@@ -390,7 +390,7 @@ fn replace_image_tag(attrs: &str, alt: &str, date_slug: &str, environment: &Envi
 
     tasks.add_image_task(environment,source,target.clone(),watermark,&size_format)?;
 
-    let _result = if full_link {
+    let result = if full_link {
         let thumbnail_path = if let Some((size,format)) = size_format {
             if size.width(&format) > CONTENT_WIDTH  {
                 // NOTE: This will cause ImageMagick to always convert the thumbnail to png
@@ -408,15 +408,15 @@ fn replace_image_tag(attrs: &str, alt: &str, date_slug: &str, environment: &Envi
             new_file_path.clone()
         };
 
-        format!("[![{}](<{{{{'assets/' | append: {} | relative_url}}}}>)](<{{{{'assets/' | append: {} | relative_url}}}}>)",alt,thumbnail_path,new_file_path);
+        format!("[![{}](<{{{{'assets/{}' | relative_url}}}}>)](<{{{{'assets/' | append: {} | relative_url}}}}>)",alt,thumbnail_path,new_file_path);
         todo!("The full-link attribute hasn't been tested yet.")
     } else {
-        format!("![{}](<{{{{'assets/' | append: {} | relative_url}}}}>)",alt,new_file_path);
-        todo!("Test the modified image formatting results")
+        format!("![{}](<{{{{'assets/{}' | relative_url}}}}>)",alt,new_file_path)
+        //todo!("Test the modified image formatting results")
     };
 
 
-//TODO:    Ok(result)
+    Ok(result)
 
 
 
@@ -808,11 +808,11 @@ impl Environment {
                     }
                 },
                 (Some(_),None) => {
-                    error = Some("A drafting.image tag was found without alt text.".into());
+                    error = Some("A \\drafting\\image tag was found without alt text.".into());
                     default!()
                 },
                 (None,_) => {
-                    error = Some("A drafting.image tag was found without attributes.".into());
+                    error = Some("A \\drafting\\image tag was found without attributes.".into());
                     default!()
                 }
             }
@@ -1600,7 +1600,7 @@ fn run() -> Result<(),Box<dyn Error>> {
     let mut tasks = TaskList::new();
 
     io::write("Type ctrl-C to cancel.")?;
-    io::write("TIP: You can use '\\drafting.image[attrs]{alt-text}' in your post to automate image processing")?;
+    io::write("TIP: You can use '\\drafting\\image[attrs]{alt-text}' in your post to automate image processing")?;
 
     match choose_recipe(&environment)? {
         Recipe::Publish(draft_file) => {
