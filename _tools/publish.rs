@@ -45,7 +45,6 @@ use std::cell::RefCell;
 
 use chrono::DateTime;
 use chrono::Local;
-use chrono::NaiveDateTime;
 use chrono::Timelike;
 use chrono::Datelike;
 use regex::Regex;
@@ -202,7 +201,7 @@ fn format_yaml_date(date: DateTime<Local>) -> String {
     // The yaml metadata format used in jekyll has the following not-quite-ISO format, and I want to make sure it remains, just in case:
     // 2022-01-11 11:43:05.000000000 -06:00 -- and the time is in my local timezone already, so I think this is right.
     let tz_offset = date.offset().local_minus_utc();
-    let tz_date = NaiveDateTime::from_timestamp_opt(tz_offset.abs().into(),0).expect("Timezone offset should have been valid.");
+    let tz_date = DateTime::from_timestamp(tz_offset.abs().into(),0).expect("Timezone offset should have been valid.");
 
     format!("{:0>4}-{:0>2}-{:0>2} {:0>2}:{:0>2}:{:0>2}.000000000 {}{:0>2}:{:0>2}",
             date.year(),
