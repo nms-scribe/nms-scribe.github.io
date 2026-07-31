@@ -1,3 +1,9 @@
+## This Project is Broken
+
+I can't get this to work anymore. I tried running the testing commands. I tried reinstalling jekyll (`gem install jekyll bundler`), and I had to fix the Gemfile, and at this point it's outputting the error `jekyll 3.9.2 | Error:  undefined method 'tainted?' for an instance of String`. A search for that did not give me any useful workarounds. I give up, I just won't update the blog again.
+
+**FUTURE**: I would like to convert to a simpler blog system, maybe built in rust so it's managed by cargo, and then I can get rid of dumb ruby. I did find some rust packages that claimed to by jekyll drop-in replacements. `rustkyll` was written with AI. `rustyll` would not build the site correctly. 
+
 ## Testing
 
 To test on local: `bundle exec jekyll serve`
